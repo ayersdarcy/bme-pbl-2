@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 #%% Known Values for Steady State:
     
-n1 = 266 #nmol/day
+n1 = 266 / 86400 #nmol/day / 864000 seconds/day = nmol/sec
 vitKa = 1.45 #nmol/L
 Xa = 170 #nmol/L
 proth = 1400 #nmol/L
@@ -24,6 +24,7 @@ X = 160 #nmol/L
 Xi = 160 #nmol/L
 vitKi = vitKa
 fbr = 5 #THIS IS NOT THE CORRRENT VALUE! NEEDS TO BE FOUND CURRENTLY A PLACEHOLDER
+Vol_blood = 5 #Liters
 
 #rate constants
 kcm = 1950 #nmol/L
@@ -44,6 +45,7 @@ n11 = kd22*Xa*proth/(proth+kd2m) #thrombin
 n9 = ke2*thr*fbng/(fbng+kem) #fibrinogen
 n16 = ke2*thr*fbng/(fbng+kem) #fibrin
 k_thr_deg = n11/thr #thrombin #1/s
+thr_deg = k_thr_deg * thr #nmol/(L * s)
 
 #%% Box A (Intestine)
 
@@ -55,7 +57,7 @@ n1 = n3 + n2
 
 n12 = kf1*tf1*X #X #nmol/(L*s)
 n13 = kf1*tf1*X #Xi #nmol/(L*s)
-k_fbr_deg = n16 / fbr #fibrin #1/s
+k_fbr_deg = (n16/Vol_blood)/fbr #fibrin #1/s
 
 #%% Intermediate Equation (part of Box D)
 #solving for rate constant for this
@@ -71,7 +73,7 @@ n13 = kd1*vitKa*Xi #Xi #nmol/(L*s)
 n4 = 0.55*n1
 fbng_gen = n9  #fibrinogen
 proth_gen = n8 #prothrombin
-X_gen = n10 #X
+X_gen = n12 #X
 n5 = n3 - n4 + n7 #vitKi
 
 #%% Box C (Vitamin K Reduction)
@@ -88,7 +90,7 @@ print("n6", n6)
 print("n7", n7)
 print("n8", n8)
 print("n9", n9)
-print("n10", n10)
+print("Thrombin Degredation", thr_deg)
 print("n11", n11)
 print("n12", n12)
 print("n13", n13)
