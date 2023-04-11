@@ -23,6 +23,7 @@ tf1 = 1.6*10**5 #nmol/L (healthy)
 X = 160 #nmol/L
 Xi = 160 #nmol/L
 vitKi = vitKa
+fbr = 5 #THIS IS NOT THE CORRRENT VALUE! NEEDS TO BE FOUND CURRENTLY A PLACEHOLDER
 
 #rate constants
 kcm = 1950 #nmol/L
@@ -42,7 +43,7 @@ n11 = kd22*Xa*proth/(proth+kd2m) #thrombin
 
 n9 = ke2*thr*fbng/(fbng+kem) #fibrinogen
 n16 = ke2*thr*fbng/(fbng+kem) #fibrin
-n10 = n11 #thrombin
+k_thr_deg = n11/thr #thrombin #1/s
 
 #%% Box A (Intestine)
 
@@ -54,7 +55,7 @@ n1 = n3 + n2
 
 n12 = kf1*tf1*X #X #nmol/(L*s)
 n13 = kf1*tf1*X #Xi #nmol/(L*s)
-n14 = n16 #fibrin #nmol/(L*s)
+k_fbr_deg = n16 / fbr #fibrin #1/s
 
 #%% Intermediate Equation (part of Box D)
 #solving for rate constant for this
@@ -62,7 +63,7 @@ n14 = n16 #fibrin #nmol/(L*s)
 kd1 = n13/(vitKa*Xi) #Xi #L/(nmol*s)
 n7 = kd1*vitKa*Xi #vitKi #nmol/(L*s)
 n6 = kd1*vitKa*Xi #vitKa #nmol/(L*s)
-n15 = kd1*vitKa*Xi #Xa #nmol/(L*s)
+k_Xa_deg = (kd1*vitKa*Xi) / Xa #Xa #1/s
 n13 = kd1*vitKa*Xi #Xi #nmol/(L*s)
 
 #%% Liver Production Box
