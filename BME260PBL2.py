@@ -25,6 +25,7 @@ Xi = 160 #nmol/L
 vitKi = vitKa
 fbr = 5 #THIS IS NOT THE CORRRENT VALUE! NEEDS TO BE FOUND CURRENTLY A PLACEHOLDER
 Vol_blood = 5 #Liters
+#I am learning
 
 #rate constants
 kcm = 1950 #nmol/L
