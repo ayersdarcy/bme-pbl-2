@@ -17,7 +17,7 @@ n1 = 266 / 86400 #nmol/day / 864000 seconds/day = nmol/sec
 vitKa = 1.45 #nmol/L
 Xa = 170 #nmol/L
 proth = 1400 #nmol/L
-fbng = 8823 #nmol/L
+fbng = 9000 #nmol/L
 thr = 1 #nmol/L
 tf1 = 1.6*10**5 #nmol/L (healthy)
 X = 160 #nmol/L
