@@ -44,10 +44,10 @@ n11 = kd22*Xa*proth/(proth+kd2m) * Vol_liver #thrombin
 
 #%% Box E (Capillaries)
 
-n9 = ke2*thr*fbng/(fbng+kem) * Vol_blood #fibrinogen
-n16 = ke2*thr*fbng/(fbng+kem) * Vol_blood #fibrin
-k_thr_deg = n11/thr #thrombin #1/s
-thr_deg = k_thr_deg * thr #nmol/(L * s)
+n9 = ((ke2*thr*fbng)/(fbng+kem)) * Vol_blood #fibrinogen
+n16 = ((ke2*thr*fbng)/(fbng+kem)) * Vol_blood #fibrin
+k_thr_deg = n11/(thr*Vol_blood) #thrombin #1/s
+n10 = k_thr_deg * thr #nmol/(L * s)
 
 #%% Box A (Intestine)
 
@@ -57,18 +57,18 @@ n1 = n3 + n2
 
 #%% Box F (Injury Site)
 
-n12 = kf1*tf1*X #X #nmol/(L*s)
-n13 = kf1*tf1*X #Xi #nmol/(L*s)
-k_fbr_deg = (n16/Vol_blood)/fbr #fibrin #1/s
+n12 = kf1*tf1*X*Vol_blood #X #nmol/(L*s)
+n13 = kf1*tf1*X*Vol_blood #Xi #nmol/(L*s)
+k_fbr_deg = n16/(fbr*Vol_blood) #fibrin #1/s
 
 #%% Box D (Intermediate Equation)
 #solving for rate constant for this
 
-kd1 = n13/(vitKa*Xi) #Xi #L/(nmol*s)
+kd1 = (n13/Vol_liver)/(vitKa*Xi) #Xi #L/(nmol*s)
 n7 = kd1*vitKa*Xi *Vol_liver#vitKi #nmol/(L*s)
 n6 = kd1*vitKa*Xi *Vol_liver#vitKa #nmol/(L*s)
-k_Xa_deg = (kd1*vitKa*Xi) / Xa #Xa #1/s
-n13 = kd1*vitKa*Xi #Xi #nmol/(L*s)
+k_Xa_deg = -(kd1*vitKa*Xi) / Xa #Xa #1/s
+n13 = kd1*vitKa*Xi*Vol_liver #Xi #nmol/(L*s)
 
 #%% Box B (Liver Production Box)
 
@@ -92,7 +92,7 @@ print("n6", n6)
 print("n7", n7)
 print("n8", n8)
 print("n9", n9)
-print("Thrombin Degredation", thr_deg)
+print("Thrombin Degredation, n10", n10)
 print("n11", n11)
 print("n12", n12)
 print("n13", n13)
