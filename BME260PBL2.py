@@ -61,7 +61,7 @@ n12 = kf1*tf1*X #X #nmol/(L*s)
 n13 = kf1*tf1*X #Xi #nmol/(L*s)
 k_fbr_deg = (n16/Vol_blood)/fbr #fibrin #1/s
 
-#%% Intermediate Equation (part of Box D)
+#%% Box D (Intermediate Equation)
 #solving for rate constant for this
 
 kd1 = n13/(vitKa*Xi) #Xi #L/(nmol*s)
@@ -70,7 +70,7 @@ n6 = kd1*vitKa*Xi *Vol_liver#vitKa #nmol/(L*s)
 k_Xa_deg = (kd1*vitKa*Xi) / Xa #Xa #1/s
 n13 = kd1*vitKa*Xi #Xi #nmol/(L*s)
 
-#%% Liver Production Box
+#%% Box B (Liver Production Box)
 
 n4 = 0.55*n1
 fbng_gen = n9  #fibrinogen
@@ -80,7 +80,7 @@ n5 = n3 - n4 + n7 #vitKi
 
 #%% Box C (Vitamin K Reduction)
 
-kc2_VKORC1 = n5*(vitKi + kcm)/vitKi
+kc2_VKORC1 = (n5/Vol_liver)*((vitKi + kcm)/vitKi)
 
 
 print("n1", n1)
