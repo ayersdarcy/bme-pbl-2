@@ -5,7 +5,7 @@ Created on Sun Apr  9 19:59:14 2023
 
 @author: jameskoconis
 """
-
+#testing something again
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -14,8 +14,8 @@ import matplotlib.pyplot as plt
 #%% Known Values for Steady State:
     
 n1 = 266 / 86400 #nmol/day / 864000 seconds/day = nmol/sec
-vitKa = 1.45 #nmol/L
-Xa = 170 #nmol/L
+vitKa = 1.45 #nmol/L 
+Xa = 170 #nmol/L 
 proth = 1400 #nmol/L
 fbng = 9000 #nmol/L
 thr = 1 #nmol/L
