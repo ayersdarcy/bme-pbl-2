@@ -60,6 +60,7 @@ n1 = n3 + n2
 n12 = kf1*tf1*X*Vol_blood #X #nmol/(L*s)
 n13 = kf1*tf1*X*Vol_blood #Xi #nmol/(L*s)
 k_fbr_deg = n16/(fbr*Vol_blood) #fibrin #1/s
+n14 = k_fbr_deg * fbr 
 
 #%% Box D (Intermediate Equation)
 #solving for rate constant for this
@@ -67,7 +68,8 @@ k_fbr_deg = n16/(fbr*Vol_blood) #fibrin #1/s
 kd1 = (n13/Vol_liver)/(vitKa*Xi) #Xi #L/(nmol*s)
 n7 = kd1*vitKa*Xi *Vol_liver#vitKi #nmol/(L*s)
 n6 = kd1*vitKa*Xi *Vol_liver#vitKa #nmol/(L*s)
-k_Xa_deg = -(kd1*vitKa*Xi) / Xa #Xa #1/s
+k_Xa_deg = (kd1*vitKa*Xi) / Xa #Xa #1/s
+n15 = k_Xa_deg * Xa
 n13 = kd1*vitKa*Xi*Vol_liver #Xi #nmol/(L*s)
 
 #%% Box B (Liver Production Box)
