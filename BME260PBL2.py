@@ -25,6 +25,7 @@ Xi = 160 #nmol/L
 vitKi = vitKa
 fbr = 5 #THIS IS NOT THE CORRRENT VALUE! NEEDS TO BE FOUND CURRENTLY A PLACEHOLDER
 Vol_blood = 5 #Liters
+Vol_liver = Vol_blood*0.125
 #I want to sleep now
 
 #rate constants
@@ -38,13 +39,13 @@ ke2 = 84 #1/s
 
 #%% Box D (Thrombin Activation)
 
-n8 = kd22*Xa*proth/(proth+kd2m) #prothrombin
-n11 = kd22*Xa*proth/(proth+kd2m) #thrombin
+n8 = kd22*Xa*proth/(proth+kd2m) * Vol_liver #prothrombin
+n11 = kd22*Xa*proth/(proth+kd2m) * Vol_liver #thrombin
 
 #%% Box E (Capillaries)
 
-n9 = ke2*thr*fbng/(fbng+kem) #fibrinogen
-n16 = ke2*thr*fbng/(fbng+kem) #fibrin
+n9 = ke2*thr*fbng/(fbng+kem) * Vol_blood #fibrinogen
+n16 = ke2*thr*fbng/(fbng+kem) * Vol_blood #fibrin
 k_thr_deg = n11/thr #thrombin #1/s
 thr_deg = k_thr_deg * thr #nmol/(L * s)
 
@@ -64,8 +65,8 @@ k_fbr_deg = (n16/Vol_blood)/fbr #fibrin #1/s
 #solving for rate constant for this
 
 kd1 = n13/(vitKa*Xi) #Xi #L/(nmol*s)
-n7 = kd1*vitKa*Xi #vitKi #nmol/(L*s)
-n6 = kd1*vitKa*Xi #vitKa #nmol/(L*s)
+n7 = kd1*vitKa*Xi *Vol_liver#vitKi #nmol/(L*s)
+n6 = kd1*vitKa*Xi *Vol_liver#vitKa #nmol/(L*s)
 k_Xa_deg = (kd1*vitKa*Xi) / Xa #Xa #1/s
 n13 = kd1*vitKa*Xi #Xi #nmol/(L*s)
 
