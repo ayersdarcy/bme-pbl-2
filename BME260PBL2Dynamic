@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import odeint
+from scipy.integrate import solve_ivp
+
+# %% Initial Values
+k1vitK1 = 
+kneg1vitK1 = 
+k2vitK1 = 
+vitKi = 
+VKORC1 = 
+ES = 
+
+k1X = 
+Xprime = 
+vitKa = 
+
+# %% Calculations 
+tspan = np.linspace(0, 1000) #timpoint for each minute 
+y0 = []
+
+def odefunc(t, y0):
+    dVitKi = -k1vitK1*vitKi*VKORC1 + kneg1vitK1*ES 
+    dVKORC1 = -k1vitK1*vitKi*VKORC1 + kneg1vitK1*ES + k2vitK1*ES
+    dES = k1vitK1*vitKi*VKORC1 - kneg1vitK1*ES - k2vitK1*ES
+    dVitKa = k2vitK1*ES
+
+    dXprime = -k1X * Xprime * vitKa
+    dXa = k1X*Xprime*vitKa
+    dVitKi = 
+
+    return [dVitKi, dVKORC1, dES, dVitKa]
+
+output = solve_ivp(odefunc, t_span=(0, 600), y0=y0, method="RK45", t_eval=tspan)
+
+AConcentration = output["y"][0]
+CConcentration = output["y"][1]
+
+print(AConcentration[47])
