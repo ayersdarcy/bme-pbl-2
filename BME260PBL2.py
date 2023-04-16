@@ -23,7 +23,7 @@ tf1 = 1.6*10**5 #nmol/L (healthy)
 X = 160 #nmol/L
 Xi = 160 #nmol/L
 vitKi = vitKa
-fbr = 5 #THIS IS NOT THE CORRRENT VALUE! NEEDS TO BE FOUND CURRENTLY A PLACEHOLDER
+fbr = fbng
 Vol_blood = 5 #Liters
 Vol_liver = Vol_blood*0.125
 #I want to sleep now
