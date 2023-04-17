@@ -19,7 +19,7 @@ Xa = 170 #nmol/L
 proth = 1400 #nmol/L
 fbng = 9000 #nmol/L
 thr = 1 #nmol/L
-tf1 = 1.6*10**5 #nmol/L (healthy)
+tf1 = 1.6*10**-5 #nmol/L (healthy)
 X = 160 #nmol/L
 Xi = 160 #nmol/L
 vitKi = vitKa
@@ -30,6 +30,7 @@ Vol_liver = Vol_blood*0.125
 
 #rate constants
 kcm = 1950 #nmol/L
+kc2 = 3*10**6 #1/s
 kd2m = 1600 #nmol/L
 kd22 = 57 #1/s
 kf1 = 0.025 #L/(s*nmol)
@@ -47,7 +48,7 @@ n11 = kd22*Xa*proth/(proth+kd2m) * Vol_liver #thrombin
 n9 = ((ke2*thr*fbng)/(fbng+kem)) * Vol_blood #fibrinogen
 n16 = ((ke2*thr*fbng)/(fbng+kem)) * Vol_blood #fibrin
 k_thr_deg = n11/(thr*Vol_blood) #thrombin #1/s
-n10 = k_thr_deg * thr #nmol/(L * s)
+n10 = k_thr_deg * thr * Vol_blood #nmol/(L * s)
 
 #%% Box A (Intestine)
 
@@ -60,7 +61,7 @@ n1 = n3 + n2
 n12 = kf1*tf1*X*Vol_blood #X #nmol/(L*s)
 n13 = kf1*tf1*X*Vol_blood #Xi #nmol/(L*s)
 k_fbr_deg = n16/(fbr*Vol_blood) #fibrin #1/s
-n14 = k_fbr_deg * fbr 
+n14 = k_fbr_deg * fbr * Vol_blood
 
 #%% Box D (Intermediate Equation)
 #solving for rate constant for this
@@ -69,8 +70,7 @@ kd1 = (n13/Vol_liver)/(vitKa*Xi) #Xi #L/(nmol*s)
 n7 = kd1*vitKa*Xi *Vol_liver#vitKi #nmol/(L*s)
 n6 = kd1*vitKa*Xi *Vol_liver#vitKa #nmol/(L*s)
 k_Xa_deg = (kd1*vitKa*Xi) / Xa #Xa #1/s
-n15 = k_Xa_deg * Xa
-n13 = kd1*vitKa*Xi*Vol_liver #Xi #nmol/(L*s)
+n15 = k_Xa_deg * Xa * Vol_blood
 
 #%% Box B (Liver Production Box)
 
@@ -82,7 +82,7 @@ n5 = n3 - n4 + n7 #vitKi
 
 #%% Box C (Vitamin K Reduction)
 
-kc2_VKORC1 = (n5/Vol_liver)*((vitKi + kcm)/vitKi)
+VKORC1 = (n5/Vol_liver)*((vitKi + kcm)/(vitKi) * kc2)
 
 
 print("n1", n1)
@@ -104,7 +104,7 @@ print("fbng_gen", fbng_gen)
 print("proth_gen", proth_gen)
 print("X_gen", X_gen)
 print("kd1", kd1)
-print("kc2_VKORC1", kc2_VKORC1)
+print("VKORC1", VKORC1)
 
 
 #%%Graphing Data
