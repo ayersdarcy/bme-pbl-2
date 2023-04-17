@@ -95,7 +95,7 @@ def odefunc(t, y0):
     dfXprime = fK1*tf1*X - n13/Vol_blood
 
     #box e
-    deThr = -eK1*thr*fbng + eK_1*ES + eK2*ES - k_thrombin_deg + n11/Vol_blood - n10/Vol_lood
+    deThr = -eK1*thr*fbng + eK_1*ES + eK2*ES - k_thrombin_deg + n11/Vol_blood - n10/Vol_blood
     deFbng = -eK1*thr*fbng + eK_1*dES + n9/Vol_blood
     deES = eK1*thr*fbng - eK1*ES - eK2*dES
     deFbr = eK2*ES - k_thrombin_deg - n16/Vol_blood
