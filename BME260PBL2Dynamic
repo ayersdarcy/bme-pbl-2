@@ -59,6 +59,11 @@ vitKi = 1.45                #nmol/L
 fbr = fbng                  #nmol/L
 Vol_blood = 5               #Liters
 Vol_liver = Vol_blood*0.125 #Liters
+cES = 0
+ddES = cES
+eES = cES
+VKORC1 = 1.837*10**-7 #MAYBE CHANGE !!!!!!!!!
+Xprime = X
 
 #rate constants
 kc2 = 3*10**6 #1/sec
@@ -73,10 +78,10 @@ y0 = []
 
 def odefunc(t, y0):
     #box c
-    dcVitKi_activation = -cK1*vitKi*VKORC1 + cK_1*ES + n5/Vol_blood
-    dVKORC1 = -cK1*vitKi*VKORC1 + cK_1*ES + cK2*ES 
-    dES = cK1*vitKi*VKORC1 - cK_1*ES - cK2*ES
-    dcVitKa_activation = cK2*ES - n6/Vol_blood
+    dcVitKi_activation = -cK1*vitKi*VKORC1 + cK_1*cES + n5/Vol_blood
+    dVKORC1 = -cK1*vitKi*VKORC1 + cK_1*cES + cK2*cES 
+    dES = cK1*vitKi*VKORC1 - cK_1*cES - cK2*cES
+    dcVitKa_activation = cK2*cES - n6/Vol_blood
 
     #box d
     dXprime = -dK1* Xprime * vitKa + n13/Vol_blood
@@ -84,21 +89,21 @@ def odefunc(t, y0):
     dVitKi_X = dK1*Xprime*vitKi - n7/Vol_blood
     dVitKa_X = -dK1*Xprime*vitKi + n6/Vol_blood
 
-    ddXa = -ddK1*Xa*proth + ddK_1*ES + ddK2*ES - k_thrombin_deg*Xa - n15/Vol_blood
+    ddXa = -ddK1*Xa*proth + ddK_1*ddES + ddK2*ddES - k_thrombin_deg*Xa - n15/Vol_blood
     ddproth = -ddK1*Xa*proth + ddK_1*dES +n8/Vol_blood
-    ddES = ddK1*Xa*proth - ddK_1*ES -ddK2*dES
-    ddthr = ddK2*ES - n11/Vol_blood
+    ddES = ddK1*Xa*proth - ddK_1*ddES -ddK2*dES
+    ddthr = ddK2*ddES - n11/Vol_blood
 
     #box f
-    dTF = -fK1*tf1*X
+    dTF = -fK1*tf1*X 
     dfX = -fK1*tf1*X + n12/Vol_blood
     dfXprime = fK1*tf1*X - n13/Vol_blood
 
     #box e
-    deThr = -eK1*thr*fbng + eK_1*ES + eK2*ES - k_thrombin_deg + n11/Vol_blood - n10/Vol_blood
+    deThr = -eK1*thr*fbng + eK_1*eES + eK2*eES - k_thrombin_deg + n11/Vol_blood - n10/Vol_blood
     deFbng = -eK1*thr*fbng + eK_1*dES + n9/Vol_blood
-    deES = eK1*thr*fbng - eK1*ES - eK2*dES
-    deFbr = eK2*ES - k_thrombin_deg - n16/Vol_blood
+    deES = eK1*thr*fbng - eK1*eES - eK2*dES
+    deFbr = eK2*eES - k_thrombin_deg - n16/Vol_blood
     
 
     return [dcVitKi_activation, dVKORC1, dES, dcVitKa_activation, dXprime, dXa, dVitKi_X, dVitKa_X, ddXa, ddproth, ddES, ddthr
