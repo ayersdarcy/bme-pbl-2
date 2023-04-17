@@ -29,7 +29,7 @@ Vol_liver = Vol_blood*0.125
 #I want to sleep now
 
 #rate constants
-kcm = 1950 #nmol/L
+kcm = 1559 #nmol/L
 kc2 = 3*10**6 #1/s
 kd2m = 1600 #nmol/L
 kd22 = 57 #1/s
@@ -70,7 +70,7 @@ kd1 = (n13/Vol_liver)/(vitKa*Xi) #Xi #L/(nmol*s)
 n7 = kd1*vitKa*Xi *Vol_liver#vitKi #nmol/(L*s)
 n6 = kd1*vitKa*Xi *Vol_liver#vitKa #nmol/(L*s)
 k_Xa_deg = (kd1*vitKa*Xi) / Xa #Xa #1/s
-n15 = k_Xa_deg * Xa * Vol_blood
+n15 = k_Xa_deg * Xa * Vol_liver
 
 #%% Box B (Liver Production Box)
 
@@ -82,29 +82,32 @@ n5 = n3 - n4 + n7 #vitKi
 
 #%% Box C (Vitamin K Reduction)
 
-VKORC1 = (n5/Vol_liver)*((vitKi + kcm)/(vitKi) * kc2)
+VKORC1 = (n5/Vol_liver)*((vitKi + kcm)/((vitKi) * kc2))
 
 
-print("n1", n1)
-print("n2", n2)
-print("n3", n3)
-print("n4", n4)
-print("n5", n5)
-print("n6", n6)
-print("n7", n7)
-print("n8", n8)
-print("n9", n9)
-print("Thrombin Degredation, n10", n10)
-print("n11", n11)
-print("n12", n12)
-print("n13", n13)
-print("n14", n14)
-print("n15", n15)
-print("fbng_gen", fbng_gen)
-print("proth_gen", proth_gen)
-print("X_gen", X_gen)
-print("kd1", kd1)
-print("VKORC1", VKORC1)
+print("n1: {:.3e}".format(n1))
+print("n2: {:.3e}".format(n2))
+print("n3: {:.3e}".format(n3))
+print("n4: {:.3e}".format(n4))
+print("n5: {:.3e}".format(n5))
+print("n6: {:.3e}".format(n6))
+print("n7: {:.3e}".format(n7))
+print("n8: {:.3e}".format(n8))
+print("n9: {:.3e}".format(n9))
+print("Thrombin Degredation, n10: {:.3e}".format(n10))
+print("n11: {:.3e}".format(n11))
+print("n12: {:.3e}".format(n12))
+print("n13: {:.3e}".format(n13))
+print("n14: {:.3e}".format(n14))
+print("n15: {:.3e}".format(n15))
+print("fbng_gen: {:.3e}".format(fbng_gen))
+print("proth_gen: {:.3e}".format(proth_gen))
+print("X_gen: {:.3e}".format(X_gen))
+print("kd1: {:.3e}".format(kd1))
+print("VKORC1: {:.3e}".format(VKORC1))
+print("K_thrombin_deg: {:.3e}".format(k_thr_deg))
+print("K_firbin_deg: {:.3e}".format(k_fbr_deg))
+print("K_Xa_deg: {:.3e}".format(k_Xa_deg))
 
 
 #%%Graphing Data

@@ -20,14 +20,15 @@ tspan = np.linspace(0, 1000) #timpoint for each minute
 y0 = []
 
 def odefunc(t, y0):
-    dVitKi = -k1vitK1*vitKi*VKORC1 + kneg1vitK1*ES 
+    dVitKi_activation = -k1vitK1*vitKi*VKORC1 + kneg1vitK1*ES 
     dVKORC1 = -k1vitK1*vitKi*VKORC1 + kneg1vitK1*ES + k2vitK1*ES
     dES = k1vitK1*vitKi*VKORC1 - kneg1vitK1*ES - k2vitK1*ES
-    dVitKa = k2vitK1*ES
+    dVitKa_activation = k2vitK1*ES
 
     dXprime = -k1X * Xprime * vitKa
     dXa = k1X*Xprime*vitKa
-    dVitKi = 
+    dVitKi_X = k1X*Xprime*vitKi
+    
 
     return [dVitKi, dVKORC1, dES, dVitKa]
 
