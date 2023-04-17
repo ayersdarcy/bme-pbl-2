@@ -44,6 +44,7 @@ n12 = 3.2*10**-4    #nmol/sec
 n13 = 3.2*10**-4    #nmol/sec
 n14 = 2.333*10**2   #nmol/sec
 n15 = 3.2*10**-4    #nmol/sec
+n16 = 2.333*10**2   #nmol/sec
 
 #known values for steady state
 vitKa = 1.45                #nmol/L
