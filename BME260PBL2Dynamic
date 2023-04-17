@@ -77,29 +77,29 @@ tspan = np.linspace(0, 1000) #timpoint for each minute
 y0 = []
 
 def odefunc(t, y0):
-    #box c
-    dcVitKi_activation = -cK1*vitKi*VKORC1 + cK_1*cES + n5/Vol_blood
+    #box c (vit k reduction)
+    dcVitKi_activation = -cK1*vitKi*VKORC1 + cK_1*cES + n5/Vol_liver
     dVKORC1 = -cK1*vitKi*VKORC1 + cK_1*cES + cK2*cES 
     dES = cK1*vitKi*VKORC1 - cK_1*cES - cK2*cES
-    dcVitKa_activation = cK2*cES - n6/Vol_blood
+    dcVitKa_activation = cK2*cES - n6/Vol_liver
 
-    #box d
-    dXprime = -dK1* Xprime * vitKa + n13/Vol_blood
-    dXa = dK1*Xprime*vitKa - n15/Vol_blood
-    dVitKi_X = dK1*Xprime*vitKi - n7/Vol_blood
-    dVitKa_X = -dK1*Xprime*vitKi + n6/Vol_blood
+    #box d (thrombin act)
+    dXprime = -dK1* Xprime * vitKa + n13/Vol_liver
+    dXa = dK1*Xprime*vitKa - n15/Vol_liver
+    dVitKi_X = dK1*Xprime*vitKi - n7/Vol_liver
+    dVitKa_X = -dK1*Xprime*vitKi + n6/Vol_liver
 
-    ddXa = -ddK1*Xa*proth + ddK_1*ddES + ddK2*ddES - k_thrombin_deg*Xa - n15/Vol_blood
-    ddproth = -ddK1*Xa*proth + ddK_1*dES +n8/Vol_blood
+    ddXa = -ddK1*Xa*proth + ddK_1*ddES + ddK2*ddES - k_thrombin_deg*Xa - n15/Vol_liver
+    ddproth = -ddK1*Xa*proth + ddK_1*dES +n8/Vol_liver
     ddES = ddK1*Xa*proth - ddK_1*ddES -ddK2*dES
-    ddthr = ddK2*ddES - n11/Vol_blood
+    ddthr = ddK2*ddES - n11/Vol_liver
 
-    #box f
+    #box f (injury site)
     dTF = -fK1*tf1*X 
     dfX = -fK1*tf1*X + n12/Vol_blood
     dfXprime = fK1*tf1*X - n13/Vol_blood
 
-    #box e
+    #box e (capillaries)
     deThr = -eK1*thr*fbng + eK_1*eES + eK2*eES - k_thrombin_deg + n11/Vol_blood - n10/Vol_blood
     deFbng = -eK1*thr*fbng + eK_1*dES + n9/Vol_blood
     deES = eK1*thr*fbng - eK1*eES - eK2*dES
