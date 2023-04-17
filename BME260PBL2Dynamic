@@ -82,6 +82,20 @@ def odefunc(t, y0):
     n1 = y0[0]
     n2 = 
     n3 = 
+    n4 = 
+    n5 = 
+    n6 = 
+    n7 = 
+    n8 = 
+    n9 = 
+    n10 = 
+    n11 = 
+    n12 = 
+    n13 = 
+    n14 = 
+    n15 = 
+    n16 = 
+    
 
     #box a & b (Liver Production)
     dn1 = 0
@@ -89,12 +103,13 @@ def odefunc(t, y0):
     dn3 = 0
     dn4 = 0.55 * (n3 + n7)
     dn5 = 0.45 * (n3 + n7)
+    #n8,n12, and n9 don't change because they are all generation terms
 
     #box c (vit k reduction)
-        #dcVitKi_activation = -cK1*vitKi*VKORC1 + cK_1*cES + n5/Vol_liver
-    n5 = Vol_liver * (cK1*vitKi*VKORC1 - cK_1*cES)
+    dcVitKi_activation = -cK1*vitKi*VKORC1 + cK_1*cES + n5/Vol_liver
+        #n5 = Vol_liver * (cK1*vitKi*VKORC1 - cK_1*cES) #not solving for this anymore, solved in box B
     dVKORC1 = -cK1*vitKi*VKORC1 + cK_1*cES + cK2*cES 
-    dES = cK1*vitKi*VKORC1 - cK_1*cES - cK2*cES
+    dcES = cK1*vitKi*VKORC1 - cK_1*cES - cK2*cES
         #dcVitKa_activation = cK2*cES - n6/Vol_liver
     n6 = Vol_liver * cK2*cES
 
@@ -115,6 +130,7 @@ def odefunc(t, y0):
     #box f (injury site)
     dTF = -fK1*tf1*X 
     dfX = -fK1*tf1*X + n12/Vol_blood
+    dffbr = n16/Vol_blood - k_fibrin_deg*fbr #added this fibrin equation?
     #n12 is x_gen so it is not changing
         #dfXprime = fK1*tf1*X - n13/Vol_blood
     n13 = (fK1*tf1*X)*Vol_blood
