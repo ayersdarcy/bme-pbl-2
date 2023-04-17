@@ -109,28 +109,3 @@ ax1 = fig1.subplots(1,1)
 compound = ['Fibrinogen','Fibrin', 'Thrombin','Prothrombin']
 flow_rate = [n9,n16, n11, n8]
 plt.bar(compound, flow_rate)
-
-#%% Healthy Dynamic
-
-#%% Known Values
-
-#rate constants
-kcm = 1950 #nmol/L
-kd2m = 1600 #nmol/L
-kd22 = 57 #1/s
-kf1 = 0.025 #L/(s*nmol)
-kem = 7200 #nmol/L
-ke2 = 84 #1/s
-kd1 = 2758.62 #L/(nmol*s)
-kc2_VKORC1 = 861329655 #(nmol/L)**2 *1/s
-
-n1 = 266 #nmol/day
-vitKa = 1.45 #nmol/L
-Xa = 170 #nmol/L
-proth = 1400 #nmol/L
-fbng = 8823 #nmol/L
-thr = 1 #nmol/L
-tf1 = 1.6*10**5 #nmol/L (healthy)
-X = 160 #nmol/L
-Xi = 160 #nmol/L
-vitKi = vitKa

@@ -77,38 +77,59 @@ tspan = np.linspace(0, 1000) #timpoint for each minute
 y0 = []
 
 def odefunc(t, y0):
+
+    #value definition
+    n1 = y0[0]
+    n2 = 
+    n3 = 
+
+    #box a & b (Liver Production)
+    dn1 = 0
+    dn2 = 0
+    dn3 = 0
+    dn4 = 0.55 * (n3 + n7)
+    dn5 = 0.45 * (n3 + n7)
+
     #box c (vit k reduction)
-    dcVitKi_activation = -cK1*vitKi*VKORC1 + cK_1*cES + n5/Vol_liver
+        #dcVitKi_activation = -cK1*vitKi*VKORC1 + cK_1*cES + n5/Vol_liver
+    n5 = Vol_liver * (cK1*vitKi*VKORC1 - cK_1*cES)
     dVKORC1 = -cK1*vitKi*VKORC1 + cK_1*cES + cK2*cES 
     dES = cK1*vitKi*VKORC1 - cK_1*cES - cK2*cES
-    dcVitKa_activation = cK2*cES - n6/Vol_liver
+        #dcVitKa_activation = cK2*cES - n6/Vol_liver
+    n6 = Vol_liver * cK2*cES
 
     #box d (thrombin act)
     dXprime = -dK1* Xprime * vitKa + n13/Vol_liver
-    dXa = dK1*Xprime*vitKa - n15/Vol_liver
-    dVitKi_X = dK1*Xprime*vitKi - n7/Vol_liver
+    dXa = dK1*Xprime*vitKa
+        #dVitKi_X = dK1*Xprime*vitKi - n7/Vol_liver
+    n7 = Vol_liver*(dK1*Xprime*vitKa)
     dVitKa_X = -dK1*Xprime*vitKi + n6/Vol_liver
-
-    ddXa = -ddK1*Xa*proth + ddK_1*ddES + ddK2*ddES - k_thrombin_deg*Xa - n15/Vol_liver
-    ddproth = -ddK1*Xa*proth + ddK_1*dES +n8/Vol_liver
+    
+    ddXa = -ddK1*Xa*proth + ddK_1*ddES + ddK2*ddES - k_thrombin_deg*Xa
+    ddproth = -ddK1*Xa*proth + ddK_1*dES + n8/Vol_liver 
+    #n8 won't change bc it's proth generation
     ddES = ddK1*Xa*proth - ddK_1*ddES -ddK2*dES
-    ddthr = ddK2*ddES - n11/Vol_liver
+        #ddthr = ddK2*ddES - n11/Vol_liver
+    n11 = (ddK2*ddES)*Vol_liver
 
     #box f (injury site)
     dTF = -fK1*tf1*X 
     dfX = -fK1*tf1*X + n12/Vol_blood
-    dfXprime = fK1*tf1*X - n13/Vol_blood
+    #n12 is x_gen so it is not changing
+        #dfXprime = fK1*tf1*X - n13/Vol_blood
+    n13 = (fK1*tf1*X)*Vol_blood
 
     #box e (capillaries)
-    deThr = -eK1*thr*fbng + eK_1*eES + eK2*eES - k_thrombin_deg + n11/Vol_blood - n10/Vol_blood
+    deThr = -eK1*thr*fbng + eK_1*eES + eK2*eES - k_thrombin_deg*thr + n11/Vol_blood
     deFbng = -eK1*thr*fbng + eK_1*dES + n9/Vol_blood
     deES = eK1*thr*fbng - eK1*eES - eK2*dES
-    deFbr = eK2*eES - k_thrombin_deg - n16/Vol_blood
-    
+        #deFbr = eK2*eES - n16/Vol_blood
+    n16 = (eK2*eES)*Vol_blood
     
 
+
     return [dcVitKi_activation, dVKORC1, dES, dcVitKa_activation, 
-            dXprime, dXa, dVitKi_X, dVitKa_X, ddXa, ddproth, ddES, 
+            dXprime, dXa + ddXa, dVitKi_X, dVitKa_X, ddproth, ddES, 
             ddthr, dTF, dfX, dfXprime, deThr, deFbng, deES, deFbr]
 
 output = solve_ivp(odefunc, t_span=(0, 600), y0=y0, method="RK45", t_eval=tspan)
