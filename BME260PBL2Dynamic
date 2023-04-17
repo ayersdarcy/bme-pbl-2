@@ -4,30 +4,100 @@ from scipy.integrate import odeint
 from scipy.integrate import solve_ivp
 
 # %% Initial Values
-k1vitK1 = 
-kneg1vitK1 = 
-k2vitK1 = 
-vitKi = 
-VKORC1 = 
-ES = 
+#reaction for vitmain k reduction (box c)
+#rate constants
+cK1 = 
+cK_1 =
+cK2 = 
+#reaction for thrombin activation (box d)
+#rate constants
+dK1 = 2.207*10**-6  #1/M*s
+ddK1 = 1*10**8      #1/M*s
+ddK_1 = 103         #1/M*s
+ddK2 = 57           #1/M*s
+#reaction for injury site (box f)
+#rate constants
+fK1 = 2.5*10**7 #1/M*s
+#reaction for fibrin gen (box e)
+#rate constants
+eK1 = 1*10**8   #1/M*s
+eK_1 = 636      #1/M*s
+eK2= 84         #1/M*s
+#degradation rate constants
+k_thrombin_deg = 5.652*10**2    # 1/sec
+k_fibrin_deg = 5.185*10**-3     # 1/sec
+xa_deg = 3.012*10**-6           #1/sec
 
-k1X = 
-Xprime = 
-vitKa = 
+#Streams
+n1= 3.079*10**-3    #nmol/sec
+n2 = 1.385*10**-3   #nmol/sec
+n3 = 1.693*10**-3   #nmol/sec
+n4 = 1.693*10**-3   #nmol/sec
+n5 = 3.2*10**-4     #nmol/sec
+n6 = 3.2*10**-4     #nmol/sec
+n7 = 3.2*10**-4     #nmol/sec
+n8 = 2.826*10**3    #nmol/sec
+n9 = 2.333*10**2    #nmol/sec
+n10 = 2.826*10**3   #nmol/sec
+n11 = 2.826*10**3   #nmol/sec
+n12 = 3.2*10**-4    #nmol/sec
+n13 = 3.2*10**-4    #nmol/sec
+n14 = 2.333*10**2   #nmol/sec
+n15 = 3.2*10**-4    #nmol/sec
+
+#known values for steady state
+vitKa = 1.45                #nmol/L
+Xa = 170                    #nmol/L
+proth = 1400                #nmol/L
+fbng = 9000                 #nmol/L
+thr = 1                     #nmol/L
+tf1 = 1.6*10**-5            #nmol/L
+X = 160                     #nmol/L
+Xi = 160                    #nmol/L
+vitKi = 1.45                #nmol/L
+fbr = fbng                  #nmol/L
+Vol_blood = 5               #Liters
+Vol_liver = Vol_blood*0.125 #Liters
+
+#rate constants
+kc2 = 3*10**6 #1/sec
+kd22 = 57 #1/sec
+kf1 = 0.025 #L/sec*nnmol
+ke2= 84 #1/sec
+
 
 # %% Calculations 
 tspan = np.linspace(0, 1000) #timpoint for each minute 
 y0 = []
 
 def odefunc(t, y0):
-    dVitKi_activation = -k1vitK1*vitKi*VKORC1 + kneg1vitK1*ES 
-    dVKORC1 = -k1vitK1*vitKi*VKORC1 + kneg1vitK1*ES + k2vitK1*ES
-    dES = k1vitK1*vitKi*VKORC1 - kneg1vitK1*ES - k2vitK1*ES
-    dVitKa_activation = k2vitK1*ES
+    #box c
+    dcVitKi_activation = -cK1*vitKi*VKORC1 + cK_1*ES + n5/Vol_blood
+    dVKORC1 = -cK1*vitKi*VKORC1 + cK_1*ES + cK2*ES
+    dES = cK1*vitKi*VKORC1 - cK_1*ES - cK2*ES
+    dcVitKa_activation = cK2*ES - n6/Vol_blood
 
-    dXprime = -k1X * Xprime * vitKa
-    dXa = k1X*Xprime*vitKa
-    dVitKi_X = k1X*Xprime*vitKi
+    #box d
+    dXprime = -dK1* Xprime * vitKa + n13/Vol_blood
+    dXa = dK1*Xprime*vitKa - n15/Vol_blood
+    dVitKi_X = dK1*Xprime*vitKi - n7/Vol_blood
+    dVitKa_X = -dK1*Xprime*vitKi + n6/Vol_blood
+
+    ddXa = -ddK1*Xa*proth + ddK_1*ES + ddK2*ES - k_thrombin_deg*Xa - n15/Vol_blood
+    ddproth = -ddK1*Xa*proth + ddK_1*dES +n8/Vol_blood
+    ddES = ddK1*Xa*proth - ddK_1*ES -ddK2*dES
+    ddthr = ddK2*ES
+
+    #box f
+    dTF = -fK1*tf1*X
+    dfX = -fK1*tf1*X
+    dfXprime = fK1*tf1*X
+
+    #box e
+    deThr = -eK1*thr*fbng + eK_1*ES + eK2*ES - k_thrombin_deg
+    deFbng = -eK1*thr*fbng + eK_1*dES
+    deES = eK1*thr*fbng - eK1*ES - eK2*dES
+    deFbr = eK2*ES - k_thrombin_deg
     
 
     return [dVitKi, dVKORC1, dES, dVitKa]
