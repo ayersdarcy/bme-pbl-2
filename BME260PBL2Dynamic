@@ -6,8 +6,8 @@ from scipy.integrate import solve_ivp
 # %% Initial Values
 #reaction for vitmain k reduction (box c)
 #rate constants
-cK1 = 
-cK_1 =
+cK1 = 10*10**-1
+cK_1 = 
 cK2 = 
 #reaction for thrombin activation (box d)
 #rate constants
