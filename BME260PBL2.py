@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Apr  9 19:59:14 2023
-
-@author: jameskoconis
-"""
-#testing something again
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -26,11 +18,10 @@ vitKi = vitKa
 fbr = fbng
 Vol_blood = 5 #Liters
 Vol_liver = Vol_blood*0.125
-#I want to sleep now
 
 #rate constants
 kcm = 1559 #nmol/L
-kc2 = 3*10**6 #1/s
+kc2 = 55.9 #1/s
 kd2m = 1600 #nmol/L
 kd22 = 57 #1/s
 kf1 = 0.025 #L/(s*nmol)

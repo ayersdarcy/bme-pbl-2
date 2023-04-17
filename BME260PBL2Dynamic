@@ -6,23 +6,23 @@ from scipy.integrate import solve_ivp
 # %% Initial Values
 #reaction for vitmain k reduction (box c)
 #rate constants
-cK1 = 10*10**-1
-cK_1 = 
-cK2 = 
+cK1 = 1*10**-1 #1/nM * s
+cK_1 = 100 #1/s
+cK2 = 55.9 #1/s
 #reaction for thrombin activation (box d)
 #rate constants
-dK1 = 2.207*10**-6  #1/M*s
-ddK1 = 1*10**8      #1/M*s
-ddK_1 = 103         #1/M*s
-ddK2 = 57           #1/M*s
+dK1 = 2.207*10**-6  #1/nM*s
+ddK1 = 1*10**-1     #1/nM*s
+ddK_1 = 103         #1/s
+ddK2 = 57           #1/s
 #reaction for injury site (box f)
 #rate constants
-fK1 = 2.5*10**7 #1/M*s
+fK1 = 2.5*10**7 / (10**9)   #1/nM*s
 #reaction for fibrin gen (box e)
 #rate constants
-eK1 = 1*10**8   #1/M*s
-eK_1 = 636      #1/M*s
-eK2= 84         #1/M*s
+eK1 = 1*10**-1   #1/nM*s
+eK_1 = 636      #1/s
+eK2= 84         #1/s
 #degradation rate constants
 k_thrombin_deg = 5.652*10**2    # 1/sec
 k_fibrin_deg = 5.185*10**-3     # 1/sec
@@ -62,7 +62,7 @@ Vol_liver = Vol_blood*0.125 #Liters
 cES = 0
 ddES = cES
 eES = cES
-VKORC1 = 1.837*10**-7 #MAYBE CHANGE !!!!!!!!!
+VKORC1 = 9.857*10**-3       #nmol/L     #MAYBE CHANGE !!!!!!!!!
 Xprime = X
 
 #rate constants
@@ -105,13 +105,15 @@ def odefunc(t, y0):
     deES = eK1*thr*fbng - eK1*eES - eK2*dES
     deFbr = eK2*eES - k_thrombin_deg - n16/Vol_blood
     
+    
 
-    return [dcVitKi_activation, dVKORC1, dES, dcVitKa_activation, dXprime, dXa, dVitKi_X, dVitKa_X, ddXa, ddproth, ddES, ddthr
-            ,dTF, dfX, dfXprime, deThr, deFbng, deES, deFbr ]
+    return [dcVitKi_activation, dVKORC1, dES, dcVitKa_activation, 
+            dXprime, dXa, dVitKi_X, dVitKa_X, ddXa, ddproth, ddES, 
+            ddthr, dTF, dfX, dfXprime, deThr, deFbng, deES, deFbr]
 
 output = solve_ivp(odefunc, t_span=(0, 600), y0=y0, method="RK45", t_eval=tspan)
 
 AConcentration = output["y"][0]
 CConcentration = output["y"][1]
 
-print(AConcentration[47])
+print(dcVitKa_activation)
