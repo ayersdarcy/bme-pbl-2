@@ -73,7 +73,7 @@ ke2= 84 #1/sec
 
 
 # %% Calculations 
-tspan = np.linspace(0, 400, 400) #timpoint for each minute 
+tspan = np.linspace(0, 1, 50) #timpoint for each minute 
 y0 = np.array([n4, n5, n6, n7, n11, n13, n16, vitKa, vitKi, VKORC1, 
       cES, Xprime, Xa, proth, ddES, tf1, X, fbr, thr, fbng, eES])
 
@@ -163,12 +163,13 @@ def odefunc(y0, t):
 
 output = odeint(odefunc, y0, tspan)
 
-n4 = output[:,0]
+#fbr = output[:,17]
+vitKa = output[:,7]
 #CConcentration = output["y"][1]
 
 fig, ax1 = plt.subplots()
-ax1.plot(tspan, n4, label="n4")
-#ax1.plot(tspan, R2L, label="R2L")
+#ax1.plot(tspan, fbr, label="Fibrin")
+ax1.plot(tspan, vitKa, label="VitKa Factor")
 #ax1.plot(tspan, R1, label="R1")
 #ax1.plot(tspan, R2, label="R2")
 #ax1.plot(tspan, L, label="L")
