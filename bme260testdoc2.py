@@ -11,10 +11,10 @@ cK_1 = 10 #1/s
 cK2 = 5 #1/s
 #reaction for thrombin activation (box d)
 #rate constants
-dK1 = 2.207*10**-6  #1/nM*s
-ddK1 = 1*10**-1     #1/nM*s
-ddK_1 = 103         #1/s
-ddK2 = 57           #1/s
+dK1 = 1*10**-4  #1/nM*s
+ddK1 = 0.1     #1/nM*s
+ddK_1 =  0.1        #1/s
+ddK2 = 1           #1/s
 #reaction for injury site (box f)
 #rate constants
 fK1 = 2.5*10**5 / (10**9)   #1/nM*s
@@ -24,7 +24,7 @@ eK1 = 1*10**2   #1/nM*s
 eK_1 = 636      #1/s
 eK2= 84         #1/s
 #degradation rate constants
-k_thrombin_deg = 5.652*10**2    # 1/sec
+k_thrombin_deg = 2    # 1/sec
 k_fibrin_deg = 5.185*10**-3     # 1/sec
 xa_deg = 3.012*10**-6           #1/sec
 
@@ -36,11 +36,11 @@ n4 = 1.693*10**-3   #nmol/sec
 n5 = 3.2*10**-4     #nmol/sec
 n6 = 3.2*10**-4     #nmol/sec
 n7 = 3.2*10**-4     #nmol/sec
-n8 = 2.826*10**3    #nmol/sec
+n8 = 10             #nmol/sec
 n9 = 2.333*10**2    #nmol/sec
 n10 = 2.826*10**3   #nmol/sec
 n11 = 2.826*10**6   #nmol/sec
-n12 = .32       #nmol/sec
+n12 = 3.2           #nmol/sec
 n13 = 3.2*10**-4    #nmol/sec
 n14 = 2.333*10**2   #nmol/sec
 n15 = 3.2*10**-4    #nmol/sec
@@ -48,7 +48,7 @@ n16 = 2.333*10**2   #nmol/sec
 
 #known values for steady state
 vitKa = 1.45                #nmol/L
-Xa = 170                    #nmol/L
+Xa = 0                    #nmol/L
 proth = 1400                #nmol/L
 fbng = 9000                 #nmol/L
 thr = 1*10**3               #nmol/L
@@ -109,7 +109,7 @@ def odefunc(y0, t):
     dXa = dK1*Xprime*vitKa
         #dVitKi_X = dK1*Xprime*vitKi - n7/Vol_liver
     dn7 = Vol_liver*(dK1*Xprime*vitKa)
-    dVitKa = -dK1*Xprime*vitKi + n6/Vol_liver
+    dvitKa = -dK1*Xprime*vitKi + n6/Vol_liver
     
     ddXa = -ddK1*Xa*proth + ddK_1*ddES + ddK2*ddES - k_thrombin_deg*Xa
     ddproth = -ddK1*Xa*proth + ddK_1*ddES + n8/Vol_liver 
@@ -128,14 +128,14 @@ def odefunc(y0, t):
 
     return np.array([dfX, dn13, dTF, dffbr, 
                      dVitKi, dVKORC1, dcES, dn6,
-                     dXprime, dn7, dVitKa, ddXa+dXa, ddproth, ddES, dn11])
+                     dXprime, dn7, dvitKa, ddXa+dXa, ddproth, ddES, dn11])
 
 output = odeint(odefunc, y0, tspan)
 
-dXprime = output[:,8]
+dXa = output[:,11]
 
 fig, ax1 = plt.subplots()
-ax1.plot(tspan, dXprime, label="dffbr")
+ax1.plot(tspan, dXa, label="dffbr")
 plt.title("dprime vs Time")
 plt.xlabel("Time (sec)")
 #plt.ylim([0,300])
