@@ -73,11 +73,13 @@ ke2= 84 #1/sec
 
 
 # %% Calculations 
-tspan = np.linspace(0, 1000) #timpoint for each minute 
-y0 = [n4, n5, n6, n7, n11, n13, n16, vitKa, vitKi, VKORC1
-    cES, Xprime, Xa, proth, ddES, tf1, X, fbr, thr, fbng, eES]
+tspan = np.linspace(0, 400, 400) #timpoint for each minute 
+y0 = np.array([n4, n5, n6, n7, n11, n13, n16, vitKa, vitKi, VKORC1, 
+      cES, Xprime, Xa, proth, ddES, tf1, X, fbr, thr, fbng, eES])
 
-def odefunc(t, y0):
+print("started")
+
+def odefunc(y0, t):
 
     #value definition
     n1 = 3.079*10**-3
@@ -117,7 +119,7 @@ def odefunc(t, y0):
     #n8, n12, and n9 don't change because they are all generation terms
 
     #box c (vit k reduction)
-    dcVitKi = -cK1*vitKi*VKORC1 + cK_1*cES + n5/Vol_liver
+    dVitKi = -cK1*vitKi*VKORC1 + cK_1*cES + n5/Vol_liver
         #n5 = Vol_liver * (cK1*vitKi*VKORC1 - cK_1*cES) #not solving for this anymore, solved in box B
     dVKORC1 = -cK1*vitKi*VKORC1 + cK_1*cES + cK2*cES 
     dcES = cK1*vitKi*VKORC1 - cK_1*cES - cK2*cES
@@ -153,16 +155,27 @@ def odefunc(t, y0):
         #deFbr = eK2*eES - n16/Vol_blood
     dn16 = (eK2*eES)*Vol_blood
     
-
-
-    return [dn4, dn5, dn6, dn7, dn11, dn13, dn16, 
+    return np.array([dn4, dn5, dn6, dn7, dn11, dn13, dn16, 
             dVitKa, dVitKi, dVKORC1, dcES, dXprime,
             dXa + ddXa, ddproth, ddES, dTF, dfX, dffbr,
-            deThr, deFbng, deES]
+            deThr, deFbng, deES])
 
-output = solve_ivp(odefunc, t_span=(0, 600), y0=y0, method="RK45", t_eval=tspan)
 
-AConcentration = output["y"][0]
-CConcentration = output["y"][1]
+output = odeint(odefunc, y0, tspan)
 
-print(dcVitKa_activation)
+n4 = output[:,0]
+#CConcentration = output["y"][1]
+
+fig, ax1 = plt.subplots()
+ax1.plot(tspan, n4, label="n4")
+#ax1.plot(tspan, R2L, label="R2L")
+#ax1.plot(tspan, R1, label="R1")
+#ax1.plot(tspan, R2, label="R2")
+#ax1.plot(tspan, L, label="L")
+#plt.title("Concentrations of Double Receptor-Ligand\nReaction vs. Time")
+plt.xlabel("Time (sec)")
+plt.ylabel("Concentration (M)")
+plt.legend(loc = "best")
+plt.show()
+
+print("Done")
