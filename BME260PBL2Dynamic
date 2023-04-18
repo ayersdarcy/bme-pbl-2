@@ -74,40 +74,31 @@ ke2= 84 #1/sec
 
 # %% Calculations 
 tspan = np.linspace(0, 1000) #timpoint for each minute 
-y0 = []
+y0 = [n4, n5, n6, n7, n11, n13, n16]
 
 def odefunc(t, y0):
 
     #value definition
-    n1 = y0[0]
-    n2 = y0[1]
-    n3 = y0[2]
-    n4 = y0[3]
-    n5 = y0[4]
-    n6 = y0[5]
-    n7 = y0[6]
-    n8 = y0[7]
-    n9 = y0[8]
-    n10 = y0[9]
-    n11 = y0[10]
-    n12 = y0[11]
-    n13 = y0[12]
-    n14 = y0[13]
-    n15 = y0[14]
-    n16 = y0[15]
-    
-
+    n1 = 3.079*10**-3
+    n2 = 1.385*10**-3
+    n3 = 1.693*10**-3
+    n4 = y0[0]
+    n5 = y0[1]
+    n6 = y0[2]
+    n7 = y0[3]
+    n8 = 2.826*10**3
+    n9 = 2.33*10**2
+    #n10 not used for calculations 
+    n11 = y0[4]
+    n12 = 3.2*10**-4
+    n13 = y0[5]
+    #n14 and n15 aren't used for these calculation
+    n16 = y0[6]
 
     #box a & b (Liver Production)
-    dn1 = 0
-    dn2 = 0
-    dn3 = 0
     dn4 = 0.55 * (n3 + n7)
     dn5 = 0.45 * (n3 + n7)
-    #n8,n12, and n9 don't change because they are all generation terms
-    dn8 = 0
-    dn9 = 0
-    dn12 = 0
+    #n8, n12, and n9 don't change because they are all generation terms
 
     #box c (vit k reduction)
     dcVitKi_activation = -cK1*vitKi*VKORC1 + cK_1*cES + n5/Vol_liver
@@ -115,13 +106,13 @@ def odefunc(t, y0):
     dVKORC1 = -cK1*vitKi*VKORC1 + cK_1*cES + cK2*cES 
     dcES = cK1*vitKi*VKORC1 - cK_1*cES - cK2*cES
         #dcVitKa_activation = cK2*cES - n6/Vol_liver
-    n6 = Vol_liver * cK2*cES
+    dn6 = Vol_liver * cK2*cES
 
     #box d (thrombin act)
     dXprime = -dK1* Xprime * vitKa + n13/Vol_liver
     dXa = dK1*Xprime*vitKa
         #dVitKi_X = dK1*Xprime*vitKi - n7/Vol_liver
-    n7 = Vol_liver*(dK1*Xprime*vitKa)
+    dn7 = Vol_liver*(dK1*Xprime*vitKa)
     dVitKa_X = -dK1*Xprime*vitKi + n6/Vol_liver
     
     ddXa = -ddK1*Xa*proth + ddK_1*ddES + ddK2*ddES - k_thrombin_deg*Xa
@@ -129,7 +120,7 @@ def odefunc(t, y0):
     #n8 won't change bc it's proth generation
     ddES = ddK1*Xa*proth - ddK_1*ddES -ddK2*dES
         #ddthr = ddK2*ddES - n11/Vol_liver
-    n11 = (ddK2*ddES)*Vol_liver
+    dn11 = (ddK2*ddES)*Vol_liver
 
     #box f (injury site)
     dTF = -fK1*tf1*X 
@@ -137,18 +128,19 @@ def odefunc(t, y0):
     dffbr = n16/Vol_blood - k_fibrin_deg*fbr #added this fibrin equation?
     #n12 is x_gen so it is not changing
         #dfXprime = fK1*tf1*X - n13/Vol_blood
-    n13 = (fK1*tf1*X)*Vol_blood
+    dn13 = (fK1*tf1*X)*Vol_blood
 
     #box e (capillaries)
     deThr = -eK1*thr*fbng + eK_1*eES + eK2*eES - k_thrombin_deg*thr + n11/Vol_blood
     deFbng = -eK1*thr*fbng + eK_1*dES + n9/Vol_blood
     deES = eK1*thr*fbng - eK1*eES - eK2*dES
         #deFbr = eK2*eES - n16/Vol_blood
-    n16 = (eK2*eES)*Vol_blood
+    dn16 = (eK2*eES)*Vol_blood
     
 
 
-    return [dcVitKi_activation, dVKORC1, dES, dcVitKa_activation, 
+    return [dn4, dn5, dn6, dn7, dn11, dn13, dn16, 
+            dcVitKi_activation, dVKORC1, dES, dcVitKa_activation, 
             dXprime, dXa + ddXa, dVitKi_X, dVitKa_X, ddproth, ddES, 
             ddthr, dTF, dfX, dfXprime, deThr, deFbng, deES, deFbr]
 
