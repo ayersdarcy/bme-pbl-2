@@ -17,7 +17,7 @@ ddK_1 = 103         #1/s
 ddK2 = 57           #1/s
 #reaction for injury site (box f)
 #rate constants
-fK1 = 2.5*10**7 / (10**9)   #1/nM*s
+fK1 = 2.5*10**5 / (10**9)   #1/nM*s
 #reaction for fibrin gen (box e)
 #rate constants
 eK1 = 1*10**2   #1/nM*s
@@ -40,7 +40,7 @@ n8 = 2.826*10**3    #nmol/sec
 n9 = 2.333*10**2    #nmol/sec
 n10 = 2.826*10**3   #nmol/sec
 n11 = 2.826*10**6   #nmol/sec
-n12 = 3.2*10**-4    #nmol/sec
+n12 = .32    #nmol/sec
 n13 = 3.2*10**-4    #nmol/sec
 n14 = 2.333*10**2   #nmol/sec
 n15 = 3.2*10**-4    #nmol/sec
@@ -50,10 +50,10 @@ n16 = 2.333*10**2   #nmol/sec
 vitKa = 1.45                #nmol/L
 Xa = 170                    #nmol/L
 proth = 1400                #nmol/L
-fbng = 9000*10**3           #nmol/L
+fbng = 9000                 #nmol/L
 thr = 1*10**3               #nmol/L
-tf1 = 100                   #nmol/L
-X = 10                     #nmol/L
+tf1 = 16                   #nmol/L
+X = 160                     #nmol/L
 Xi = 160                    #nmol/L
 vitKi = 1.45                #nmol/L
 fbr = fbng                  #nmol/L
@@ -73,7 +73,7 @@ ke2= 84 #1/sec
 
 
 # %% Calculations 
-tspan = np.linspace(0, 10, 1000) #timpoint for each minute 
+tspan = np.linspace(0, 100, 1000) #timpoint for each minute 
 y0 = np.array([X, Xprime, tf1, fbr])
 
 print("started")
@@ -97,12 +97,13 @@ def odefunc(y0, t):
 
 output = odeint(odefunc, y0, tspan)
 
-tf = output[:,2]
+dffbr = output[:,3]
 
 fig, ax1 = plt.subplots()
-ax1.plot(tspan, tf, label="TF")
-plt.title("TF vs Time")
+ax1.plot(tspan, dffbr, label="dffbr")
+plt.title("dffbr vs Time")
 plt.xlabel("Time (sec)")
+#plt.ylim([0,300])
 plt.ylabel("Concentration (M)")
 plt.legend(loc= "best")
 plt.show()
