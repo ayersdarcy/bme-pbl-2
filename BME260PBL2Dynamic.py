@@ -20,7 +20,7 @@ ddK2 = 57           #1/s
 fK1 = 2.5*10**7 / (10**9)   #1/nM*s
 #reaction for fibrin gen (box e)
 #rate constants
-eK1 = 1*10**-1   #1/nM*s
+eK1 = 1*10**2   #1/nM*s
 eK_1 = 636      #1/s
 eK2= 84         #1/s
 #degradation rate constants
@@ -39,7 +39,7 @@ n7 = 3.2*10**-4     #nmol/sec
 n8 = 2.826*10**3    #nmol/sec
 n9 = 2.333*10**2    #nmol/sec
 n10 = 2.826*10**3   #nmol/sec
-n11 = 2.826*10**3   #nmol/sec
+n11 = 2.826*10**6   #nmol/sec
 n12 = 3.2*10**-4    #nmol/sec
 n13 = 3.2*10**-4    #nmol/sec
 n14 = 2.333*10**2   #nmol/sec
@@ -50,8 +50,8 @@ n16 = 2.333*10**2   #nmol/sec
 vitKa = 1.45                #nmol/L
 Xa = 170                    #nmol/L
 proth = 1400                #nmol/L
-fbng = 9000                 #nmol/L
-thr = 1                     #nmol/L
+fbng = 9000*10**3           #nmol/L
+thr = 1*10**3               #nmol/L
 tf1 = 1.6*10**-5            #nmol/L
 X = 160                     #nmol/L
 Xi = 160                    #nmol/L
@@ -73,7 +73,7 @@ ke2= 84 #1/sec
 
 
 # %% Calculations 
-tspan = np.linspace(0, 1, 50) #timpoint for each minute 
+tspan = np.linspace(0, 100, 10000) #timpoint for each minute 
 y0 = np.array([n4, n5, n6, n7, n11, n13, n16, vitKa, vitKi, VKORC1, 
       cES, Xprime, Xa, proth, ddES, tf1, X, fbr, thr, fbng, eES])
 
@@ -164,13 +164,15 @@ def odefunc(y0, t):
 output = odeint(odefunc, y0, tspan)
 
 #fbr = output[:,17]
-vitKa = output[:,7]
+vitKi = output[:,8]
+n6 = output[:,2]
+cES = output[:,10]
 #CConcentration = output["y"][1]
 
 fig, ax1 = plt.subplots()
-#ax1.plot(tspan, fbr, label="Fibrin")
-ax1.plot(tspan, vitKa, label="VitKa Factor")
-#ax1.plot(tspan, R1, label="R1")
+#ax1.plot(tspan, n6, label="n6")
+ax1.plot(tspan, vitKi, label="vitKi")
+#ax1.plot(tspan, cES, label="cES")
 #ax1.plot(tspan, R2, label="R2")
 #ax1.plot(tspan, L, label="L")
 #plt.title("Concentrations of Double Receptor-Ligand\nReaction vs. Time")
