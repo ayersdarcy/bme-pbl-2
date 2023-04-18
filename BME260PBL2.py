@@ -23,7 +23,7 @@ Vol_liver = Vol_blood*0.125
 kcm = 1559 #nmol/L
 kc2 = 55.9 #1/s
 kd2m = 1600 #nmol/L
-kd22 = 57 #1/s
+kdd2 = 57 #1/s
 kf1 = 0.025 #L/(s*nmol)
 kem = 7200 #nmol/L
 ke2 = 84 #1/s
@@ -31,8 +31,8 @@ ke2 = 84 #1/s
 
 #%% Box D (Thrombin Activation)
 
-n8 = kd22*Xa*proth/(proth+kd2m) * Vol_liver #prothrombin
-n11 = kd22*Xa*proth/(proth+kd2m) * Vol_liver #thrombin
+n8 = kdd2*Xa*proth/(proth+kd2m) * Vol_liver #prothrombin
+n11 = kdd2*Xa*proth/(proth+kd2m) * Vol_liver #thrombin
 
 #%% Box E (Capillaries)
 
