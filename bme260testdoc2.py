@@ -101,7 +101,8 @@ tf = output[:,2]
 
 fig, ax1 = plt.subplots()
 ax1.plot(tspan, tf, label="TF")
-plt.title("Concentrations of Double Receptor-Ligand\nReaction vs. Time")
+plt.title("TF vs Time")
 plt.xlabel("Time (sec)")
 plt.ylabel("Concentration (M)")
-plt.legend(loc)
+plt.legend(loc= "best")
+plt.show()
