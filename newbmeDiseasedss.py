@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 #%% Healthy Steady State 
 
 #%% Known Values for Steady State:
-n1 = 266 / 86400        #nmol/day / 864000 seconds/day = nmol/sec
+n1 = 133 / 86400        #nmol/day / 864000 seconds/day = nmol/sec
 vitKa = 1.45            #nmol/L 
 Xa = 170                #nmol/L 
 fbng = 9000             #nmol/L
@@ -91,11 +91,3 @@ print("K_firbin_deg: {:.3e}".format(fk))
 print("R: {:.3e}".format(R))
 print("CK: {:.3e}".format(ck))
 print("K value of fbr excrection: {:.3e}".format(kfbr_exc))
-
-#%%Graphing Data
-
-#fig1 = plt.figure(num=1, clear=True)
-#ax1 = fig1.subplots(1,1)
-#compound = ['Fibrinogen','Fibrin', 'Thrombin','Prothrombin']
-#flow_rate = [n9,n16, n11]
-#plt.bar(compound, flow_rate)
