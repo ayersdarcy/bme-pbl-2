@@ -67,6 +67,7 @@ n5 = n3 - n4 + n7 #vitKi
 ck = n5/vitKi #vitki
 n6 = ck*vitKi *Vol_blood#vitKa
 
+
 print("n1: {:.3e}".format(n1))
 print("n2: {:.3e}".format(n2))
 print("n3: {:.3e}".format(n3))
