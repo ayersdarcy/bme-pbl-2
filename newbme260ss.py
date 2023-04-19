@@ -58,7 +58,7 @@ n1 = n3 + n2
 #%% Box B (Liver Production)
 
 n4 = 0.55*n1
-kfbr_exc = n4/(vitKi*Vol_liver)
+vitKi_exc = n4/(vitKi*Vol_liver)
 fbng_gen = n8  #fibrinogen
 X_gen = n12 #X
 n5 = n3 - n4 + n7 #vitKi
@@ -90,7 +90,7 @@ print("K_thrombin_deg: {:.3e}".format(ek_deg))
 print("K_firbin_deg: {:.3e}".format(fk))
 print("R: {:.3e}".format(R))
 print("CK: {:.3e}".format(ck))
-print("K value of fbr excrection: {:.3e}".format(kfbr_exc))
+print("K value of vitKi exc: {:.3e}".format(vitKi_exc))
 
 #%%Graphing Data
 
