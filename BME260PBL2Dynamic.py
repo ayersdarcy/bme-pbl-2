@@ -6,7 +6,7 @@ from scipy.integrate import solve_ivp
 # %% Initial Values
 #reaction for vitmain k reduction (box c)
 #rate constants
-cK1 = 1*10**-1 #1/nM * s
+#cK1 = 1*10**-1 #1/nM * s
 cK_1 = 100 #1/s
 cK2 = 55.9 #1/s
 #reaction for thrombin activation (box d)
@@ -73,13 +73,13 @@ ke2= 84 #1/sec
 
 
 # %% Calculations 
-tspan = np.linspace(0, 100, 10000) #timpoint for each minute 
+tspan = np.linspace(0, 100, 100) #timpoint for each minute 
 y0 = np.array([n4, n5, n6, n7, n11, n13, n16, vitKa, vitKi, VKORC1, 
       cES, Xprime, Xa, proth, ddES, tf1, X, fbr, thr, fbng, eES])
 
 print("started")
 
-def odefunc(y0, t):
+def odefunc(y0, t, cK1):
 
     #value definition
     n1 = 3.079*10**-3
@@ -160,8 +160,16 @@ def odefunc(y0, t):
             dXa + ddXa, ddproth, ddES, dTF, dfX, dffbr,
             deThr, deFbng, deES])
 
+cK1Range = np.logspace(-10, -5, 6)
+print(cK1Range)
+counter = 0
+vitKiArr = np.zeros((6, 100))
+for cK1 in cK1Range:
+    output = odeint(odefunc, y0, tspan, args=(cK1,))
+    vitKiArr[counter] = output[:,8]
+    counter += 1
 
-output = odeint(odefunc, y0, tspan)
+
 
 #fbr = output[:,17]
 vitKi = output[:,8]
@@ -171,7 +179,10 @@ cES = output[:,10]
 
 fig, ax1 = plt.subplots()
 #ax1.plot(tspan, n6, label="n6")
-ax1.plot(tspan, vitKi, label="vitKi")
+counter = 0
+for data in vitKiArr:
+    ax1.plot(tspan, data, label=counter)
+    counter += 1
 #ax1.plot(tspan, cES, label="cES")
 #ax1.plot(tspan, R2, label="R2")
 #ax1.plot(tspan, L, label="L")
