@@ -5,28 +5,28 @@ import matplotlib.pyplot as plt
 
 #%% Known Values for Steady State:
     
-n1 = 266 / 86400 #nmol/day / 864000 seconds/day = nmol/sec
-vitKa = 1.45 #nmol/L 
-Xa = 170 #nmol/L 
-proth = 1400 #nmol/L
-fbng = 9000 #nmol/L
-thr = 1 #nmol/L
-tf1 = 1.6*10**-5 #nmol/L (healthy)
-X = 160 #nmol/L
-Xi = 160 #nmol/L
+n1 = 266 / 86400        #nmol/day / 864000 seconds/day = nmol/sec
+vitKa = 1.45            #nmol/L 
+Xa = 170                #nmol/L 
+proth = 1400            #nmol/L
+fbng = 9000             #nmol/L
+thr = 1                 #nmol/L
+tf1 = 1.6*10**-5        #nmol/L (healthy)
+X = 160                 #nmol/L
+Xi = 160                #nmol/L
 vitKi = vitKa
 fbr = fbng
-Vol_blood = 5 #Liters
+Vol_blood = 5           #Liters
 Vol_liver = Vol_blood*0.125
 
 #rate constants
-kcm = 1559 #nmol/L
-kc2 = 55.9 #1/s
-kd2m = 1600 #nmol/L
-kdd2 = 57 #1/s
-kf1 = 0.025 #L/(s*nmol)
-kem = 7200 #nmol/L
-ke2 = 84 #1/s
+kcm = 1559              #nmol/L
+kc2 = 55.9              #1/s
+kd2m = 1600             #nmol/L
+kdd2 = 57               #1/s
+kf1 = 0.025             #L/(s*nmol)
+kem = 7200              #nmol/L
+ke2 = 84                #1/s
 
 
 #%% Box D (Thrombin Activation)
