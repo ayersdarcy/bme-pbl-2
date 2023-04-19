@@ -25,27 +25,27 @@ ek2 = 84                #1/s
 
 #%% Box D (Thrombin Activation)
 
-n6 = dk*Xa*vitKa
-n12 = dk*Xa*vitKa
-n7 = dk*Xa*vitKa
-n10 = dk*Xa*vitKa #thrombin
+n6 = dk*Xa*vitKa *Vol_liver
+n12 = dk*Xa*vitKa *Vol_blood
+n7 = dk*Xa*vitKa *Vol_liver
+n10 = dk*Xa*vitKa *Vol_liver#thrombin
 
 #%% Box F (Injury site)
 
 R = n12/sig
-n11 = sig*R
+n11 = sig*R *Vol_liver
 ngen = sig*R #TF generation
 
 #%%Box E (Capillaries)
 
-n8 = (ek2*thr*fbng)/(fbng + ekm) #fibrinogen
-n15 = (ek2*thr*fbng)/(fbng + ekm) #fibrin
+n8 = (ek2*thr*fbng)/(fbng + ekm) * Vol_blood  #fibrinogen
+n15 = (ek2*thr*fbng)/(fbng + ekm) * Vol_blood #fibrin
 ek = n10/thr
-n9 = n11
+n9 = n11 *Vol_blood
 
 #Box F part 2
 fk = n15/fbr
-n13 = fk*fbr
+n13 = fk*fbr *Vol_blood
 
 
 #%% Box A (Intestine)
@@ -65,7 +65,7 @@ n5 = n3 - n4 + n7 #vitKi
 #%% Box C (Vitmain K reduction)
 
 ck = n5/vitKi #vitki
-n6 = ck*vitKi #vitKa
+n6 = ck*vitKi *Vol_blood#vitKa
 
 print("n1: {:.3e}".format(n1))
 print("n2: {:.3e}".format(n2))
