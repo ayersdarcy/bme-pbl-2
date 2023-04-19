@@ -160,7 +160,6 @@ def odefunc(y0, t):
             dXa + ddXa, ddproth, ddES, dTF, dfX, dffbr,
             deThr, defbng, deES])
 
-
 output = odeint(odefunc, y0, tspan)
 
 #fbr = output[:,17]
