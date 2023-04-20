@@ -21,12 +21,12 @@ ek1 = 0.1
 ek_1 = 63.6
 ek2 = 84
 #degradation rate constants
-k_thrombin_deg = 3.081*10**-2    # 1/sec
+k_thrombin_deg = 3.081*10**-2   # 1/sec
 k_fibrin_deg = 5.185*10**-4     # 1/sec
-k_vitKa_exc = 1.868*10**-3
+k_vitKa_exc = 1.868*10**-3      # 1/sec
 
 #Reaction Rate
-R = 1.232*10**2
+R = 1.232*10**2     #nmol/s
 
 #Streams
 n1=  0.0030787037   #nmol/sec
@@ -264,17 +264,10 @@ print("max:")
 print(np.max(fbrResult2))
 
 fig, ax1 = plt.subplots()
-#ax1.plot(tspan, n6, label="n6")
 ax1.plot(tspan, fbrResult, label="Healthy", color='steelblue')
 ax1.plot(tspan, fbrResult2, label="Diseased", color='crimson')
 plt.axhline(y = 18313.43, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
-#plt.axhline(y = 9000, color = 'k', linestyle = '-', label="Maintenance Level")
-#ax1.plot(tspan, cES, label="cES")
-#ax1.plot(tspan, R2, label="R2")
-#ax1.plot(tspan, L, label="L")
 plt.title("Decreased Fibrin in Diseased State Yields Increased Clotting Time")
-#plt.ylim(0,20000)
-#plt.xlim
 plt.xlabel("Time (sec)")
 plt.ylabel("Fibrin Concentration (nM)")
 plt.legend(loc = "best")
@@ -286,16 +279,8 @@ print("thrombin max healthy: {:3e}".format(thrombin_max))
 print("thrombin max diseased: {:3e}".format(thrombin_maxD))
 
 fig, ax1 = plt.subplots()
-#ax1.plot(tspan, n6, label="n6")
-#ax1.plot(tspan, XaResult, label="Xa Healthy")
-#ax1.plot(tspan, XaResult2, label="Xa Diseased")
 ax1.plot(tspan, thrResult, label="Healthy", color='crimson')
 ax1.plot(tspan, thrResult2, label="Diseased")
-#plt.axhline(y = 16200, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
-#plt.axhline(y = 9000, color = 'k', linestyle = '-', label="Maintenance Level")
-#ax1.plot(tspan, cES, label="cES")
-#ax1.plot(tspan, R2, label="R2")
-#ax1.plot(tspan, L, label="L")
 plt.title("Vitamin K Deficiency Leads to Decreased Levels of Thrombin")
 #plt.ylim(0,20000)
 plt.xlim(0, 60)
@@ -322,8 +307,6 @@ plt.xlabel("Time (sec)")
 plt.ylabel("Flow rate in stream 6 (nmol/sec)")
 plt.legend(loc = "best")
 plt.show()"""
-
-
 
 X = ['0.4','0.7','1.0','1.3']
 healthy = [8.78, 14.23, 20.22, 30.2]
@@ -353,7 +336,7 @@ ax[1].plot(vitKSpaced, fbr, label="Fibrin", color="darkslategray")
 ax[0].invert_xaxis()
 ax[1].invert_xaxis()
 ax[0].set(ylabel="Thrombin Concentration (nmol)", 
-          title='Fibrin and Thrombin Concentrations Increase as Vitamin K Active Increases')
+          title='Fibrin and Thrombin Concentrations Decrease as Vitamin K Active Decreases')
 ax[1].set(xlabel='Vitamin K Active Concentration (nmol)', ylabel='Fibrin Concentration (nmol)')
 plt.show()
 
