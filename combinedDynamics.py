@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 from scipy.integrate import odeint
 from scipy.integrate import solve_ivp
+mpl.rcParams['font.size'] = 14
 
 # %% Initial Values
 #reaction for vitmain k reduction (box c)
@@ -118,6 +120,7 @@ def odefunc(y0, t):
 output = odeint(odefunc, y0, tspan)
 
 vitKiResult = output[:,14]
+n6Result = output[:,1]
 
 
 # CHANGE TO DISEASED DYNAMIC 
@@ -187,7 +190,6 @@ kf1 = 0.025 #L/sec*nnmol
 ke2= 84 #1/sec
 
 # %% Calculations
-tspan = np.linspace(0, 60, 10000) #timpoint for each second 
 y0 = np.array([n5, n6, n7, n10, n12, n14,
                 vitKa, vitKi, X, Xa, thr, 
                 fbng, ES, tf1, fbr])
@@ -242,19 +244,64 @@ def odefunc2(y0, t):
 output2 = odeint(odefunc2, y0, tspan)
 
 vitKiResult2 = output2[:,14]
+n6Result2 = output2[:,1]
+
+print(tspan)
+print(vitKiResult)
+print(vitKiResult2)
+
+
 
 fig, ax1 = plt.subplots()
 #ax1.plot(tspan, n6, label="n6")
-ax1.plot(tspan, vitKiResult, label="vitKi")
-ax1.plot(tspan, vitKiResult2, label="diseased")
-plt.axhline(y = 16200, color = 'r', linestyle = 'dashed')
+ax1.plot(tspan, vitKiResult, label="Healthy")
+ax1.plot(tspan, vitKiResult2, label="Diseased")
+plt.axhline(y = 16200, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
+#plt.axhline(y = 9000, color = 'k', linestyle = '-', label="Maintenance Level")
 #ax1.plot(tspan, cES, label="cES")
 #ax1.plot(tspan, R2, label="R2")
 #ax1.plot(tspan, L, label="L")
-#plt.title("Concentrations of Double Receptor-Ligand\nReaction vs. Time")
+plt.title("Decreased Fibrin in Diseased State Yields Increased Clotting Time")
 #plt.ylim(0,20000)
 #plt.xlim
 plt.xlabel("Time (sec)")
-plt.ylabel("Concentration (M)")
+plt.ylabel("Fibrin Concentration (nM)")
 plt.legend(loc = "best")
 plt.show()
+
+
+fig, ax1 = plt.subplots()
+#ax1.plot(tspan, n6, label="n6")
+ax1.plot(tspan, n6Result, label="Healthy")
+ax1.plot(tspan, n6Result2, label="Diseased")
+plt.axhline(y = 1.541*10, color = 'k', linestyle = 'dashed', label="Steady State")
+#plt.axhline(y = 16200, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
+#plt.axhline(y = 9000, color = 'k', linestyle = '-', label="Maintenance Level")
+#ax1.plot(tspan, cES, label="cES")
+#ax1.plot(tspan, R2, label="R2")
+#ax1.plot(tspan, L, label="L")
+plt.title("Vitamin K (Active) in Stream 6 Decreases in Disease State")
+#plt.ylim(0,20000)
+plt.xlim(0, 20)
+plt.xlabel("Time (sec)")
+plt.ylabel("Flow rate in stream 6 (nmol/sec)")
+plt.legend(loc = "best")
+plt.show()
+
+
+"""
+X = ['.25 in^2','.50 in^2','.75 in^2','1.00 in^2']
+healthy = [10, 20.72, 20, 40]
+diseased = [20, 34.9, 25, 30]
+  
+X_axis = np.arange(len(X))
+  
+plt.bar(X_axis - 0.2, healthy, 0.4, label = 'Healthy')
+plt.bar(X_axis + 0.2, diseased, 0.4, label = 'Diseased')
+  
+plt.xticks(X_axis, X)
+plt.xlabel("Size of wound")
+plt.ylabel("Number of Students")
+plt.title("Number of Students in each group")
+plt.legend()
+plt.show()"""
