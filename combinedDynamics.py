@@ -199,6 +199,8 @@ y0 = np.array([n5, n6, n7, n10, n12, n14,
                 fbng, ES, tf1, fbr])
 
 def odefunc2(y0, t): 
+    #initialize all the values that change at each time point 
+    #some of the stream values 
     n5 = y0[0]
     n6 = y0[1]
     n7 = y0[2]
@@ -348,9 +350,16 @@ fig, ax = plt.subplots(2)
 #ax1.plot(tspan, n6, label="n6")
 ax[0].plot(vitKSpaced, thr, label="Thrombin", color="crimson")
 ax[1].plot(vitKSpaced, fbr, label="Fibrin", color="darkslategray")
+ax[0].invert_xaxis()
+ax[1].invert_xaxis()
 ax[0].set(ylabel="Thrombin Concentration (nmol)", 
           title='Fibrin and Thrombin Concentrations Increase as Vitamin K Active Increases')
 ax[1].set(xlabel='Vitamin K Active Concentration (nmol)', ylabel='Fibrin Concentration (nmol)')
 plt.show()
 
-
+differences = [4.82, 9.10, 14.4, 20.6]
+plt.bar(X, differences, color="darkslategray")
+plt.title('Disparity Between Clotting Time in Healthy\nand Diseased Increases as Injury Size Increases')
+plt.xlabel('Injury Width (cm)')
+plt.ylabel('Difference in Clotting Time (%)')
+plt.show()
