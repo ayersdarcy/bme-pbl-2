@@ -6,7 +6,7 @@ from scipy.integrate import solve_ivp
 mpl.rcParams['font.size'] = 14
 
 # %% Initial Values
-#reaction for vitmain k reduction (box c)
+#reaction for vitamin k reduction (box c)
 #rate constants
 ck = 1.7*10
 #reaction for thrombin activation (box d)
@@ -65,7 +65,7 @@ kf1 = 0.025 #L/sec*nnmol
 ke2= 84 #1/sec
 
 # %% Calculations
-tspan = np.linspace(0, 60, 10000) #timpoint for each second 
+tspan = np.linspace(0, 60, 10000) #time point for each second 
 y0 = np.array([n5, n6, n7, n10, n12, n14,
                 vitKa, vitKi, X, Xa, thr, 
                 fbng, ES, tf1, fbr])
@@ -135,7 +135,7 @@ from scipy.integrate import odeint
 from scipy.integrate import solve_ivp
 
 # %% Initial Values
-#reaction for vitmain k reduction (box c)
+#reaction for vitamin k reduction (box c)
 #rate constants
 ck = 1.7*10
 #reaction for thrombin activation (box d)
@@ -280,8 +280,8 @@ plt.show()
 
 thrombin_max = np.max(thrResult)
 thrombin_maxD = np.max(thrResult2)
-print("thrombing max healthy: {:3e}".format(thrombin_max))
-print("thrombing max diseased: {:3e}".format(thrombin_maxD))
+print("thrombin max healthy: {:3e}".format(thrombin_max))
+print("thrombin max diseased: {:3e}".format(thrombin_maxD))
 
 fig, ax1 = plt.subplots()
 #ax1.plot(tspan, n6, label="n6")
@@ -298,7 +298,7 @@ plt.title("Vitamin K Deficiency Leads to Decreased Levels of Thrombin")
 #plt.ylim(0,20000)
 plt.xlim(0, 60)
 plt.xlabel("Time (sec)")
-plt.ylabel("Thrombin Concentraion (nM)")
+plt.ylabel("Thrombin Concentration (nM)")
 plt.legend(loc = "best")
 plt.show()
 

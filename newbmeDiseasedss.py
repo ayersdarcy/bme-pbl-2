@@ -63,7 +63,7 @@ fbng_gen = n8  #fibrinogen
 X_gen = n12 #X
 n5 = n3 - n4 + n7 #vitKi
 
-#%% Box C (Vitmain K reduction)
+#%% Box C (Vitamin K reduction)
 
 ck = n5/(vitKi*Vol_liver) #vitki
 #n6 = ck*vitKi *Vol_blood#vitKa
@@ -78,7 +78,7 @@ print("n6: {:.3e}".format(n6))
 print("n7: {:.3e}".format(n7))
 print("n8: {:.3e}".format(n8))
 print("n9: {:.3e}".format(n9))
-print("Thrombin Degredation, n10: {:.3e}".format(n10))
+print("Thrombin Degradation, n10: {:.3e}".format(n10))
 print("n11: {:.3e}".format(n11))
 print("n12: {:.3e}".format(n12))
 print("n13: {:.3e}".format(n13))
