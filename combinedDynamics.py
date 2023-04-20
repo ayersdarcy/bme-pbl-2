@@ -119,7 +119,11 @@ def odefunc(y0, t):
 
 output = odeint(odefunc, y0, tspan)
 
-vitKiResult = output[:,14]
+vitKaResult = output[:,6]
+XResult = output[:,8]
+XaResult = output[:,9]
+thrResult = output[:,10]
+fbrResult = output[:,14]
 n6Result = output[:,1]
 
 
@@ -243,20 +247,25 @@ def odefunc2(y0, t):
 
 output2 = odeint(odefunc2, y0, tspan)
 
-vitKiResult2 = output2[:,14]
+vitKaResult2 = output2[:,6]
+XResult2 = output2[:,8]
+XaResult2 = output2[:,9]
+thrResult2 = output2[:,10]
+fbrResult2 = output2[:,14]
 n6Result2 = output2[:,1]
 
 print(tspan)
-print(vitKiResult)
-print(vitKiResult2)
+print(fbrResult)
+print(fbrResult2)
 
-
+print("max:")
+print(np.max(fbrResult2))
 
 fig, ax1 = plt.subplots()
 #ax1.plot(tspan, n6, label="n6")
-ax1.plot(tspan, vitKiResult, label="Healthy")
-ax1.plot(tspan, vitKiResult2, label="Diseased")
-plt.axhline(y = 16200, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
+ax1.plot(tspan, fbrResult, label="Healthy", color='steelblue')
+ax1.plot(tspan, fbrResult2, label="Diseased", color='crimson')
+plt.axhline(y = 18313.43, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
 #plt.axhline(y = 9000, color = 'k', linestyle = '-', label="Maintenance Level")
 #ax1.plot(tspan, cES, label="cES")
 #ax1.plot(tspan, R2, label="R2")
@@ -269,7 +278,31 @@ plt.ylabel("Fibrin Concentration (nM)")
 plt.legend(loc = "best")
 plt.show()
 
+thrombin_max = np.max(thrResult)
+thrombin_maxD = np.max(thrResult2)
+print("thrombing max healthy: {:3e}".format(thrombin_max))
+print("thrombing max diseased: {:3e}".format(thrombin_maxD))
 
+fig, ax1 = plt.subplots()
+#ax1.plot(tspan, n6, label="n6")
+#ax1.plot(tspan, XaResult, label="Xa Healthy")
+#ax1.plot(tspan, XaResult2, label="Xa Diseased")
+ax1.plot(tspan, thrResult, label="Thrombin Healthy", color='crimson')
+ax1.plot(tspan, thrResult2, label="Thrombin Diseased")
+#plt.axhline(y = 16200, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
+#plt.axhline(y = 9000, color = 'k', linestyle = '-', label="Maintenance Level")
+#ax1.plot(tspan, cES, label="cES")
+#ax1.plot(tspan, R2, label="R2")
+#ax1.plot(tspan, L, label="L")
+plt.title("Vitamin K Deficiency Leads to Decreased Levels of Thrombin")
+#plt.ylim(0,20000)
+plt.xlim(0, 60)
+plt.xlabel("Time (sec)")
+plt.ylabel("Thrombin Concentraion (nM)")
+plt.legend(loc = "best")
+plt.show()
+
+"""
 fig, ax1 = plt.subplots()
 #ax1.plot(tspan, n6, label="n6")
 ax1.plot(tspan, n6Result, label="Healthy")
@@ -286,22 +319,38 @@ plt.xlim(0, 20)
 plt.xlabel("Time (sec)")
 plt.ylabel("Flow rate in stream 6 (nmol/sec)")
 plt.legend(loc = "best")
-plt.show()
+plt.show()"""
 
 
-"""
-X = ['.25 in^2','.50 in^2','.75 in^2','1.00 in^2']
-healthy = [10, 20.72, 20, 40]
-diseased = [20, 34.9, 25, 30]
+
+X = ['0.4','0.7','1.0','1.3']
+healthy = [8.78, 14.23, 20.22, 30.2]
+diseased = [13.63, 23.28, 34.59, 50.8]
   
 X_axis = np.arange(len(X))
   
-plt.bar(X_axis - 0.2, healthy, 0.4, label = 'Healthy')
-plt.bar(X_axis + 0.2, diseased, 0.4, label = 'Diseased')
+plt.bar(X_axis - 0.2, healthy, 0.4, label = 'Healthy', color='steelblue')
+plt.bar(X_axis + 0.2, diseased, 0.4, label = 'Diseased', color='darkslategray')
   
 plt.xticks(X_axis, X)
-plt.xlabel("Size of wound")
-plt.ylabel("Number of Students")
-plt.title("Number of Students in each group")
+plt.xlabel("Length of Wound (cm)")
+plt.ylabel("Clotting Time (sec)")
+plt.title("Clotting Time Increases as Injury Size Increases (Width = 0.5cm")
 plt.legend()
-plt.show()"""
+plt.show()
+
+vitKSpaced = np.linspace(0, 1.45, 100)
+thr = 0.68955*vitKSpaced
+fbr = 6206.67*vitKSpaced
+
+fig, ax = plt.subplots(2)
+
+#ax1.plot(tspan, n6, label="n6")
+ax[0].plot(vitKSpaced, thr, label="Thrombin", color="crimson")
+ax[1].plot(vitKSpaced, fbr, label="Fibrin", color="darkslategray")
+ax[0].set(ylabel="Thrombin Concentration (nmol)", 
+          title='Fibrin and Thrombin Concentrations Increase as Vitamin K Active Increases')
+ax[1].set(xlabel='Vitamin K Active Concentration (nmol)', ylabel='Fibrin Concentration (nmol)')
+plt.show()
+
+
