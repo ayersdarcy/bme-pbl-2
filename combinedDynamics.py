@@ -264,12 +264,15 @@ print("max:")
 print(np.max(fbrResult2))
 
 fig, ax1 = plt.subplots()
-ax1.plot(tspan, fbrResult, label="Healthy", color='steelblue')
-ax1.plot(tspan, fbrResult2, label="Diseased", color='crimson')
-plt.axhline(y = 18313.43, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
-plt.title("Decreased Fibrin in Diseased State Yields Increased Clotting Time")
+ax1.plot(tspan, fbrResult/1000, label="Healthy (B)", color='steelblue')
+ax1.plot(tspan, fbrResult2/1000, label="Diseased (C)", color='crimson')
+plt.axhline(y = 18.31343, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
+area = 0.65
+decimals = 2
+plt.suptitle("Decreased Fibrin in Diseased State Yields Increased Clotting Time")
+plt.title("For Wound Surface Area = {0:.{1}f}cm\u00b2".format(area, decimals))
 plt.xlabel("Time (sec)")
-plt.ylabel("Fibrin Concentration (nM)")
+plt.ylabel("Fibrin Concentration (μM)")
 plt.legend(loc = "best")
 plt.show()
 
