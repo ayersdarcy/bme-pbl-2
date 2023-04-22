@@ -282,8 +282,8 @@ print("thrombin max healthy: {:3e}".format(thrombin_max))
 print("thrombin max diseased: {:3e}".format(thrombin_maxD))
 
 fig, ax1 = plt.subplots()
-ax1.plot(tspan, thrResult, label="Healthy", color='crimson')
-ax1.plot(tspan, thrResult2, label="Diseased")
+ax1.plot(tspan, thrResult, label="Healthy (B)", color='crimson')
+ax1.plot(tspan, thrResult2, label="Diseased (C)")
 plt.title("Vitamin K Deficiency Leads to Decreased Levels of Thrombin")
 #plt.ylim(0,20000)
 plt.xlim(0, 60)
@@ -317,13 +317,13 @@ diseased = [13.63, 23.28, 34.59, 50.8]
   
 X_axis = np.arange(len(X))
   
-plt.bar(X_axis - 0.2, healthy, 0.4, label = 'Healthy', color='steelblue')
-plt.bar(X_axis + 0.2, diseased, 0.4, label = 'Diseased', color='darkslategray')
+plt.bar(X_axis - 0.2, healthy, 0.4, label = 'Healthy (B)', color='steelblue')
+plt.bar(X_axis + 0.2, diseased, 0.4, label = 'Diseased (C)', color='darkslategray')
   
 plt.xticks(X_axis, X)
 plt.xlabel("Length of Wound (cm)")
 plt.ylabel("Clotting Time (sec)")
-plt.title("Clotting Time Increases as Injury Size Increases (Width = 0.5cm")
+plt.title("Clotting Time Increases as Injury Size Increases (Width = 0.5cm)")
 plt.legend()
 plt.show()
 
