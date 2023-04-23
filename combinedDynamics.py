@@ -192,7 +192,6 @@ kc2 = 3*10**6 #1/sec
 kd22 = 57 #1/sec
 kf1 = 0.025 #L/sec*nnmol
 ke2= 84 #1/sec
-
 # %% Calculations
 y0 = np.array([n5, n6, n7, n10, n12, n14,
                 vitKa, vitKi, X, Xa, thr, 
@@ -249,12 +248,74 @@ def odefunc2(y0, t):
 
 output2 = odeint(odefunc2, y0, tspan)
 
+counter = 0
+y0 = np.array([n5, n6, n7, n10, n12, n14,
+                vitKa, vitKi, X, Xa, thr, 
+                fbng, ES, tf1, fbr, counter])
+
+def odefunc3(y0, t): 
+    #initialize all the values that change at each time point 
+    #some of the stream values 
+    n5 = y0[0]
+    n6 = y0[1]
+    n7 = y0[2]
+    n10 = y0[3]
+    n12 = y0[4]
+    n14 = y0[5]
+    vitKa = y0[6]
+    vitKi = y0[7]
+    X = y0[8]
+    Xa = y0[9]
+    thr = y0[10]
+    fbng = y0[11]
+    ES = y0[12]
+    tf1 = y0[13]
+    fbr = y0[14]
+    counter = y0[15]
+
+    #box D
+    dVitKa = (n6 * Vol_liver) - (kd1 * vitKa * Xa)
+    dn7 = kd1 * vitKa * Xa * Vol_liver
+    dn10 = dn7
+    dXa = n12 / Vol_liver - kd1*vitKa*Xa
+
+    #box E
+    dthr = (-ek1*thr*fbng) + (ek_1*ES) + (ek2*ES) - (k_thrombin_deg*thr) + (n10/Vol_blood)
+    dfbng = (-ek1*thr*fbng) + (ek_1*ES) + (n8/Vol_blood)
+    dES = (ek1*thr*fbng) - (ek_1*ES) - (ek2*ES)
+    dn14 = (ek2*ES*Vol_blood)
+
+    #box B
+    dVitKi = (n3/Vol_liver) - (k_vitKa_exc*vitKi) - (n5/Vol_liver) + (n7/Vol_liver)
+
+    #box C
+    dn5 = (ck*vitKi*Vol_liver)
+    dn6 = (ck*vitKi*Vol_liver)
+
+    #box F
+    #dTF = (-5/10**6)*R
+    dTF = -tf1*0.1
+    dX = (n11/Vol_blood) - (R/Vol_blood)
+    dn12 = R
+    dfbr = (n14/Vol_blood) - k_fibrin_deg*fbr
+
+    dcounter = 1
+    if counter > 20 and counter < 22: 
+        dthr = .5
+
+    return np.array([dn5-n5, dn6-n6, dn7-n7, dn10-n10, dn12-n12, dn14-n14,
+                     dVitKa, dVitKi, dX, dXa, dthr, 
+                     dfbng, dES, dTF, dfbr, dcounter])
+
+output3 = odeint(odefunc3, y0, tspan)
+
 vitKaResult2 = output2[:,6]
 XResult2 = output2[:,8]
 XaResult2 = output2[:,9]
 thrResult2 = output2[:,10]
 fbrResult2 = output2[:,14]
 n6Result2 = output2[:,1]
+fbrResult3 = output3[:,14]
 
 print(tspan)
 print(fbrResult)
@@ -264,15 +325,13 @@ print("max:")
 print(np.max(fbrResult2))
 
 fig, ax1 = plt.subplots()
-ax1.plot(tspan, fbrResult/1000, label="Healthy (B)", color='steelblue')
-ax1.plot(tspan, fbrResult2/1000, label="Diseased (C)", color='crimson')
-plt.axhline(y = 18.31343, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
-area = 0.65
-decimals = 2
-plt.suptitle("Decreased Fibrin in Diseased State Yields Increased Clotting Time")
-plt.title("For Wound Surface Area = {0:.{1}f}cm\u00b2".format(area, decimals))
+ax1.plot(tspan, fbrResult / 1000, label="Healthy", color='steelblue')
+ax1.plot(tspan, fbrResult2 / 1000, label="Diseased", color='crimson')
+ax1.plot(tspan, fbrResult3 / 1000, label="Thrombin Shot", color='darkorchid')
+plt.axhline(y = 18313.43 / 1000, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
+plt.title("Decreased Fibrin in Diseased State Yields Increased Clotting Time")
 plt.xlabel("Time (sec)")
-plt.ylabel("Fibrin Concentration (μM)")
+plt.ylabel("Fibrin Concentration (uM)")
 plt.legend(loc = "best")
 plt.show()
 
@@ -282,8 +341,8 @@ print("thrombin max healthy: {:3e}".format(thrombin_max))
 print("thrombin max diseased: {:3e}".format(thrombin_maxD))
 
 fig, ax1 = plt.subplots()
-ax1.plot(tspan, thrResult, label="Healthy (B)", color='crimson')
-ax1.plot(tspan, thrResult2, label="Diseased (C)")
+ax1.plot(tspan, thrResult, label="Healthy", color='crimson')
+ax1.plot(tspan, thrResult2, label="Diseased")
 plt.title("Vitamin K Deficiency Leads to Decreased Levels of Thrombin")
 #plt.ylim(0,20000)
 plt.xlim(0, 60)
@@ -317,13 +376,13 @@ diseased = [13.63, 23.28, 34.59, 50.8]
   
 X_axis = np.arange(len(X))
   
-plt.bar(X_axis - 0.2, healthy, 0.4, label = 'Healthy (B)', color='steelblue')
-plt.bar(X_axis + 0.2, diseased, 0.4, label = 'Diseased (C)', color='darkslategray')
+plt.bar(X_axis - 0.2, healthy, 0.4, label = 'Healthy', color='steelblue')
+plt.bar(X_axis + 0.2, diseased, 0.4, label = 'Diseased', color='darkslategray')
   
 plt.xticks(X_axis, X)
 plt.xlabel("Length of Wound (cm)")
 plt.ylabel("Clotting Time (sec)")
-plt.title("Clotting Time Increases as Injury Size Increases (Width = 0.5cm)")
+plt.title("Clotting Time Increases as Injury Size Increases (Width = 0.5cm")
 plt.legend()
 plt.show()
 
@@ -335,12 +394,18 @@ fig, ax = plt.subplots(2)
 
 #ax1.plot(tspan, n6, label="n6")
 ax[0].plot(vitKSpaced, thr, label="Thrombin", color="crimson")
-ax[1].plot(vitKSpaced, fbr, label="Fibrin", color="darkslategray")
+plt.axvline(x = 1.4, color = 'b', label = 'Healthy')
+plt.axvline(x = 0.7, color = 'b', label = 'Diseased')
+ax[1].plot(vitKSpaced, fbr / 1000, label="Fibrin", color="darkslategray")
+plt.axvline(x = 1.4, color = 'b', label = 'Healthy')
+plt.axvline(x = 0.7, color = 'b', label = 'Diseased')
+
+plt.plot((1.3, 1.3), (0, 1), scaley = False)
 ax[0].invert_xaxis()
 ax[1].invert_xaxis()
-ax[0].set(ylabel="Thrombin Concentration (nmol)", 
+ax[0].set(ylabel="Thrombin Concentration (nM)", 
           title='Fibrin and Thrombin Concentrations Decrease as Vitamin K Active Decreases')
-ax[1].set(xlabel='Vitamin K Active Concentration (nmol)', ylabel='Fibrin Concentration (nmol)')
+ax[1].set(xlabel='Vitamin K Active Concentration (nM)', ylabel='Fibrin Concentration (uM)')
 plt.show()
 
 differences = [4.82, 9.10, 14.4, 20.6]
