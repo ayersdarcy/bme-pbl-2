@@ -129,11 +129,6 @@ n6Result = output[:,1]
 
 # CHANGE TO DISEASED DYNAMIC 
 
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.integrate import odeint
-from scipy.integrate import solve_ivp
-
 # %% Initial Values
 #reaction for vitamin k reduction (box c)
 #rate constants
@@ -325,13 +320,26 @@ print("max:")
 print(np.max(fbrResult2))
 
 fig, ax1 = plt.subplots()
-ax1.plot(tspan, fbrResult / 1000, label="Healthy", color='steelblue')
-ax1.plot(tspan, fbrResult2 / 1000, label="Diseased", color='crimson')
+ax1.plot(tspan, fbrResult / 1000, label="Healthy (1.4nM Vit. K)", color='steelblue')
+ax1.plot(tspan, fbrResult2 / 1000, label="Diseased (0.7nM Vit. K)", color='crimson')
+#ax1.plot(tspan, fbrResult3 / 1000, label="Thrombin Shot", color='darkorchid')
+plt.axhline(y = 18313.43 / 1000, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
+plt.suptitle("Decreased Fibrin in Diseased State Yields Increased Clotting Time")
+plt.title("Injury Surface Area = 0.65cm\u00b2")
+plt.xlabel("Time (sec)")
+plt.ylabel("Fibrin Concentration (\u03BCM)")
+plt.legend(loc = "best")
+plt.show()
+
+fig, ax1 = plt.subplots()
+ax1.plot(tspan, fbrResult / 1000, label="Healthy (1.4nM Vit. K)", color='steelblue')
+ax1.plot(tspan, fbrResult2 / 1000, label="Diseased (0.7nM Vit. K)", color='crimson')
 ax1.plot(tspan, fbrResult3 / 1000, label="Thrombin Shot", color='darkorchid')
 plt.axhline(y = 18313.43 / 1000, color = 'k', linestyle = 'dashed', label="Desired Level of Fibrin for Clotting")
-plt.title("Decreased Fibrin in Diseased State Yields Increased Clotting Time")
+plt.suptitle("Proposed Thrombin Shot Decreases Clotting Time in Diseased State")
+plt.title("Injury Surface Area = 0.65cm\u00b2")
 plt.xlabel("Time (sec)")
-plt.ylabel("Fibrin Concentration (uM)")
+plt.ylabel("Fibrin Concentration (\u03BCM)")
 plt.legend(loc = "best")
 plt.show()
 
@@ -341,9 +349,10 @@ print("thrombin max healthy: {:3e}".format(thrombin_max))
 print("thrombin max diseased: {:3e}".format(thrombin_maxD))
 
 fig, ax1 = plt.subplots()
-ax1.plot(tspan, thrResult, label="Healthy", color='crimson')
-ax1.plot(tspan, thrResult2, label="Diseased")
-plt.title("Vitamin K Deficiency Leads to Decreased Levels of Thrombin")
+ax1.plot(tspan, thrResult, label="Healthy (1.4nM Vit. K)", color='crimson')
+ax1.plot(tspan, thrResult2, label="Diseased (0.7nM Vit. K)")
+plt.suptitle("Vitamin K Deficiency Decreases Levels of Thrombin in Clotting Response")
+plt.title("Injury Surface Area = 0.65cm\u00b2")
 #plt.ylim(0,20000)
 plt.xlim(0, 60)
 plt.xlabel("Time (sec)")
@@ -376,13 +385,13 @@ diseased = [13.63, 23.28, 34.59, 50.8]
   
 X_axis = np.arange(len(X))
   
-plt.bar(X_axis - 0.2, healthy, 0.4, label = 'Healthy', color='steelblue')
-plt.bar(X_axis + 0.2, diseased, 0.4, label = 'Diseased', color='darkslategray')
+plt.bar(X_axis - 0.2, healthy, 0.4, label = 'Healthy (1.4nM Vit. K)', color='steelblue')
+plt.bar(X_axis + 0.2, diseased, 0.4, label = 'Diseased (1.4nM Vit. K)', color='darkslategray')
   
 plt.xticks(X_axis, X)
 plt.xlabel("Length of Wound (cm)")
 plt.ylabel("Clotting Time (sec)")
-plt.title("Clotting Time Increases as Injury Size Increases (Width = 0.5cm")
+plt.title("Clotting Time Increases as Injury Size Increases (Width = 0.5cm)")
 plt.legend()
 plt.show()
 
@@ -394,23 +403,22 @@ fig, ax = plt.subplots(2)
 
 #ax1.plot(tspan, n6, label="n6")
 ax[0].plot(vitKSpaced, thr, label="Thrombin", color="crimson")
-plt.axvline(x = 1.4, color = 'b', label = 'Healthy')
-plt.axvline(x = 0.7, color = 'b', label = 'Diseased')
+ax[0].axvline(x = 1.4, color = 'k', label = 'Healthy', linestyle="dashed")
+ax[0].axvline(x = 0.7, color = 'k', label = 'Diseased', linestyle="dashed")
 ax[1].plot(vitKSpaced, fbr / 1000, label="Fibrin", color="darkslategray")
-plt.axvline(x = 1.4, color = 'b', label = 'Healthy')
-plt.axvline(x = 0.7, color = 'b', label = 'Diseased')
-
-plt.plot((1.3, 1.3), (0, 1), scaley = False)
-ax[0].invert_xaxis()
-ax[1].invert_xaxis()
+ax[1].axvline(x = 1.4, color = 'k', label = 'Healthy', linestyle="dashed")
+ax[1].axvline(x = 0.7, color = 'k', label = 'Diseased', linestyle="dashed")
+#ax[0].invert_xaxis()
+#ax[1].invert_xaxis()
 ax[0].set(ylabel="Thrombin Concentration (nM)", 
-          title='Fibrin and Thrombin Concentrations Decrease as Vitamin K Active Decreases')
-ax[1].set(xlabel='Vitamin K Active Concentration (nM)', ylabel='Fibrin Concentration (uM)')
+          title='Thrombin and Fibrin Concentrations Decrease as Vitamin K Active Decreases')
+ax[1].set(xlabel='Vitamin K Active Concentration (nM)', ylabel='Fibrin Concentration (\u03BCM)')
 plt.show()
 
+"""
 differences = [4.82, 9.10, 14.4, 20.6]
 plt.bar(X, differences, color="darkslategray")
 plt.title('Disparity Between Clotting Time in Healthy\nand Diseased Increases as Injury Size Increases')
 plt.xlabel('Injury Width (cm)')
 plt.ylabel('Difference in Clotting Time (%)')
-plt.show()
+plt.show()"""
